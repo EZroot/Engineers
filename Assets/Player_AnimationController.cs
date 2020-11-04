@@ -33,13 +33,14 @@ public class Player_AnimationController : MonoBehaviour
         //set animation isgrounded, _isgrounded
 
         Vector3 _movementVelocity = controller.GetMovementVelocity();
-        bodyAnimator.SetFloat("TotalMovementSpeed",_movementVelocity.magnitude);
+        bodyAnimator.SetFloat("TotalMovementSpeed", _movementVelocity.magnitude);
 
         //Smooth movement
-        currentMovementVelocity = Vector3.Lerp(currentMovementVelocity, _movementVelocity, Time.deltaTime*smoothingLerpValue);
+        currentMovementVelocity = Vector3.Lerp(currentMovementVelocity, _movementVelocity, Time.deltaTime * smoothingLerpValue);
 
         //Smooth hand blending
-        handsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+        if (handsAnimator != null)
+            handsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
 
         float _forwardSpeed = VectorMath.GetDotProduct(currentMovementVelocity, characterMeshTransform.forward);
         float _sidewardSpeed = VectorMath.GetDotProduct(currentMovementVelocity, characterMeshTransform.right);
@@ -66,5 +67,15 @@ public class Player_AnimationController : MonoBehaviour
         currentTurnSpeed = Mathf.Lerp(currentTurnSpeed, _turnSpeed, Time.deltaTime * smoothingLerpValue);
         characterMeshDir = _newMeshDir;
         bodyAnimator.SetFloat("TurnSpeed", currentTurnSpeed);
+    }
+
+    public void TriggerPunch()
+    {
+        handsAnimator.SetTrigger("Punch");
+    }
+
+    public void ResetTriggerPunch()
+    {
+        handsAnimator.ResetTrigger("Punch");
     }
 }

@@ -16,6 +16,8 @@ public class Player_Controller : MonoBehaviour
 
     private AdvancedWalkerController controllerWalker;
     private Player_AnimationController controllerAnimation;
+    private Player_RagdollController controllerRagdoll;
+    private Player_FightingController controllerFighting;
     private Player_Config config;
 
     private bool stopMoving = false;
@@ -26,6 +28,8 @@ public class Player_Controller : MonoBehaviour
         //movement controller
         controllerWalker = GetComponent<AdvancedWalkerController>();
         controllerAnimation = GetComponent<Player_AnimationController>();
+        controllerRagdoll = GetComponent<Player_RagdollController>();
+        controllerFighting = GetComponent<Player_FightingController>();
 
         config = GetComponent<Player_Config>();
 
@@ -36,26 +40,31 @@ public class Player_Controller : MonoBehaviour
 
     private void Update()
     {
-        ImposterControls(4f, "Player");
-        UpdateBodyModelRotation();
         RunningControls(config);
+        //Melee/Gun play
+        controllerFighting.FightingControls(config, controllerAnimation, this);
+        HighlightGrabbedObject(4f, "Interactive");
 
-        //Debug
-        if (Input.GetMouseButtonDown(0))
+        //Debug Ragdoll
+        if (Input.GetKeyDown(KeyCode.R))
         {
+            controllerRagdoll.RagdollToggle();
             stopMoving = !stopMoving;
         }
 
-        //if we need to stop moving, stop moving
-        //should i return? maybe not incase of future gameplay? idk
         UpdateMovementStatus();
     }
 
+    /// <summary>
+    /// Indicate were grabbing an object, potentially make it glow/highlight with a shader to make telenetic effect. idk yet
+    /// </summary>
+    /// <param name="grabDistance"></param>
+    /// <param name="grabbableTag"></param>
     private void HighlightGrabbedObject(float grabDistance, string grabbableTag)
     {
         if(Input.GetMouseButton(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, grabDistance))
             {
@@ -65,51 +74,34 @@ public class Player_Controller : MonoBehaviour
                     //highlight it with fancy shaders,
                     //disable our movement? slow us down?
                     //show animation of hand
+                    //controllerAnimation.Set
                     StopMoving = true;
                 }
             }
         }
     }
 
-
-    private void ImposterControls(float killDistance, string playerTag)
+    /// <summary>
+    /// Disables movement speed/rotation if stopped
+    /// Updates body model rotation to match camera
+    /// </summary>
+    private void UpdateMovementStatus()
     {
-        //imposters only
-        if(config.isImposter)
+        if (stopMoving)
         {
-            //left mouse click
-            if(Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, killDistance))
-                {
-                    //if we hit another player
-                    if(hit.transform.tag==playerTag)
-                    {
-                        //kill the player
-                        hit.transform.gameObject.GetComponent<Player_Respawner>().KillImmediataly(transform.position, 5f);
-                    }
-                }
-            }
+            controllerWalker.movementSpeed = 0;
+            return;
         }
-    }
 
-    private void UpdateBodyModelRotation()
-    {
         //Turn our model to camera
         bodyTransform.rotation = cameraTransform.rotation;
         bodyTransform.eulerAngles = new Vector3(0, bodyTransform.eulerAngles.y, bodyTransform.eulerAngles.z);
     }
 
-    private void UpdateMovementStatus()
-    {
-        if (stopMoving)
-            controllerWalker.movementSpeed = 0;
-        else
-            controllerWalker.movementSpeed = config.walkSpeed;
-    }
-
+    /// <summary>
+    /// SHIFT + Movement makes speed go from 2 to 5, update animation threshold if values change!
+    /// </summary>
+    /// <param name="config"></param>
     private void RunningControls(Player_Config config)
     {
         //Running speed adjustment
@@ -146,7 +138,10 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    //No need to update HUD GUI 50 times a frame
+    /// <summary>
+    /// Update HUD every second
+    /// </summary>
+    /// <returns></returns>
     IEnumerator UpdateHUD()
     {
         yield return new WaitForSeconds(1);
