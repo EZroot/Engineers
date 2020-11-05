@@ -515,7 +515,8 @@ MonoBehaviour:
   - {fileID: 1472270080520595899}
   removeObjectsFromOthers:
   - {fileID: 1472519796811981574}
-  removeRigidbodiesFromOthers: []
+  rigidbodyFromOthersToSetKinematic:
+  - {fileID: 1489406438323362686}
   removeLocalObjects:
   - {fileID: 5076580693109948586}
   - {fileID: 5075646461523499828}

@@ -41,10 +41,13 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
         //Remote player
         if (!photonView.IsMine)
         {
-            animator.SetFloat("ForwardSpeed", forwardSpeed);
-            animator.SetFloat("SidewardSpeed", sideSpeed);
+            animator.SetFloat("ForwardSpeed", Mathf.Lerp(animator.GetFloat("ForwardSpeed"), forwardSpeed, 5 * Time.deltaTime));
+            animator.SetFloat("SidewardSpeed", Mathf.Lerp(animator.GetFloat("SidewardSpeed"), sideSpeed, 5 * Time.deltaTime));
             animator.SetFloat("TurnSpeed", turnSpeed);
-            animator.SetFloat("TotalMovementSpeed", totalMovementSpeed);
+            if(totalMovementSpeed>0.1f)
+                animator.SetFloat("TotalMovementSpeed", Mathf.Lerp(animator.GetFloat("TotalMovementSpeed"), totalMovementSpeed, 5 * Time.deltaTime));
+            else
+                animator.SetFloat("TotalMovementSpeed", 0);
         }
     }
 }
