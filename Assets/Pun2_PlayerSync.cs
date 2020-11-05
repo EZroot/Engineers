@@ -14,6 +14,8 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
     //List of GameObjects that should be removed for the user (eg. body for an fps, so we cant see clipping)
     public GameObject[] removeLocalObjects;
 
+    public Collider[] ragdollCollidersToDisableTillDeath;
+
     //Values that will be synced over network
     public Transform modelGfx;
     Vector3 latestPos;
@@ -28,6 +30,10 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             for (int i = 0; i < removeLocalObjects.Length; i++)
             {
                 removeLocalObjects[i].SetActive(false);
+            }
+            for (int i = 0; i < ragdollCollidersToDisableTillDeath.Length; i++)
+            {
+                ragdollCollidersToDisableTillDeath[i].enabled = false;
             }
         }
         else

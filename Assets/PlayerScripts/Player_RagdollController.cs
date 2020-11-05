@@ -11,7 +11,10 @@ public class Player_RagdollController : MonoBehaviourPun
 {
     //Disable to achieve ragdoll
     public Animator bodyAnimator;
+    //Make kinematic so we dont apply unnessesary force
     public Rigidbody[] ragdollRigidbodies;
+    //Disable colliders to avoid weird network hitter because of photon view
+    public Collider[] ragdollColliders;
 
     private Player_Respawner respawner;
     private Rigidbody rb;
@@ -23,6 +26,8 @@ public class Player_RagdollController : MonoBehaviourPun
         //so we dont get unnessisary force applied, which slams the ragdoll
         foreach (Rigidbody rb in ragdollRigidbodies)
             rb.isKinematic = true;
+        foreach (Collider col in ragdollColliders)
+            col.enabled = false;
     }
 
     //attackerPos - for direction of force
@@ -41,6 +46,8 @@ public class Player_RagdollController : MonoBehaviourPun
         //if we are currently ragdoll
         foreach (Rigidbody rb in ragdollRigidbodies)
             rb.isKinematic = false;
+        foreach (Collider col in ragdollColliders)
+            col.enabled = true;
     }
 
     void RagdollOff()
@@ -49,6 +56,8 @@ public class Player_RagdollController : MonoBehaviourPun
         bodyAnimator.enabled = true;
         foreach (Rigidbody rb in ragdollRigidbodies)
             rb.isKinematic = true;
+        foreach (Collider col in ragdollColliders)
+            col.enabled = false;
     }
 
     [PunRPC]

@@ -160,7 +160,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: e22c35a45fac28e4eb8a295407e775b7, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.5
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepHeightRatio: 0.25
   colliderHeight: 2
-  colliderThickness: 0.5
+  colliderThickness: 1
   colliderOffset: {x: 0, y: 0.5, z: 0}
   sensorType: 0
   isInDebugMode: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   - {fileID: 5077108265189145614}
   - {fileID: 5076120805521712675}
   - {fileID: 5076168531770121532}
-  isRagdoll: 0
+  ragdollColliders: []
 --- !u!114 &1472270080520595899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,6 +501,18 @@ MonoBehaviour:
   - {fileID: 5076322565909227232}
   - {fileID: 5077167275284989786}
   - {fileID: 5076424300040839690}
+  ragdollCollidersToDisableTillDeath:
+  - {fileID: 5076628158950616950}
+  - {fileID: 5076207077580859409}
+  - {fileID: 5076460782972613555}
+  - {fileID: 5076614775644678451}
+  - {fileID: 5075620837940066485}
+  - {fileID: 5076597661271627955}
+  - {fileID: 5076594807965249823}
+  - {fileID: 5076189798492322281}
+  - {fileID: 5077108265189145615}
+  - {fileID: 5076120805521712669}
+  - {fileID: 5076168531770121533}
   modelGfx: {fileID: 5077824550259170174}
 --- !u!114 &1472270080520595901
 MonoBehaviour:
@@ -529,7 +541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hideCursor: 1
-  isImposter: 0
+  isImposter: 1
   isEngineer: 0
   isChemist: 0
   isBotanist: 0

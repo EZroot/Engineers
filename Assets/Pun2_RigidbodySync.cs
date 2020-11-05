@@ -74,11 +74,17 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
     {
         Transform collisionObjectRoot = contact.transform.root;
         if (photonView == null)
+        {
+            Debug.Log("No photon view on: " + contact.gameObject.name);
             return;
+        }
+
         if (!photonView.IsMine)
         {
             if (collisionObjectRoot.CompareTag("Player"))
             {
+                Debug.Log("COLLIDED WITH PLAYER");
+
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             }
             return;
