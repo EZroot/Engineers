@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+/*
+ * Need to dissallow rigidbodysync from transfering on contact when its grabbed
+ * Need to send a RPC saying its grabbed/isnt grabbed
+ */
+
 public class Rigidbody_Drag : MonoBehaviourPun
 {
     public float force = 600;
@@ -65,7 +70,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
 				//tell our clients its grabbed
 				//rigidbodySync.GrabbedObject();
                 //transform network ownership
-				//photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+				photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
 
                 dragDepth = Player_CameraPlane.CameraToPointDepth(Camera.allCameras[0], hit.point);
                 jointTrans = AttachJoint(hit.rigidbody, hit.point);
