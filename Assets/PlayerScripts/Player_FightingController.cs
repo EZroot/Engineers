@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -86,7 +87,10 @@ public class Player_FightingController : MonoBehaviour
                     if (hit.transform.tag == playerTag)
                     {
                         //kill the player
-                        hit.transform.gameObject.GetComponent<Player_RagdollController>().RagdollToggle();
+                        PhotonView pvOther = hit.transform.gameObject.GetComponent<PhotonView>();
+                        if (pvOther == null)
+                            Debug.LogError("OTHER PLAYER DOESNT HAVE PHOTONVIEW?!");
+                        pvOther.RPC("RagdollToggle", RpcTarget.AllBufferedViaServer, pvOther.ViewID, true);
                         //apply a force
                     }
                 }

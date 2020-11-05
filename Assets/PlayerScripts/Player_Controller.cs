@@ -1,25 +1,25 @@
 ﻿using CMF;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using TMPro;
 using UnityEngine;
 
-public class Player_Controller : MonoBehaviour
+public class Player_Controller : MonoBehaviourPun
 {
     //to rotate body model
     public Transform cameraTransform;
     public Transform bodyTransform;
 
-    //HUD
-    public TextMeshProUGUI HUDStamina;
-
+    //components
     private AdvancedWalkerController controllerWalker;
     private Player_AnimationController controllerAnimation;
     private Player_RagdollController controllerRagdoll;
     private Player_FightingController controllerFighting;
     private Player_Config config;
+    private Player_Hud hud;
 
+    //movement
     private bool stopMoving = false;
     public bool StopMoving { get { return stopMoving; } set { stopMoving = value; } }
 
@@ -32,6 +32,7 @@ public class Player_Controller : MonoBehaviour
         controllerFighting = GetComponent<Player_FightingController>();
 
         config = GetComponent<Player_Config>();
+        hud = GetComponent<Player_Hud>();
 
         //stamina
         config.runStamina = config.staminaLevel;
@@ -44,13 +45,6 @@ public class Player_Controller : MonoBehaviour
         //Melee/Gun play
         controllerFighting.FightingControls(config, controllerAnimation, this);
         HighlightGrabbedObject(4f, "Interactive");
-
-        //Debug Ragdoll
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            controllerRagdoll.RagdollToggle();
-            stopMoving = !stopMoving;
-        }
 
         UpdateMovementStatus();
     }
@@ -145,7 +139,15 @@ public class Player_Controller : MonoBehaviour
     IEnumerator UpdateHUD()
     {
         yield return new WaitForSeconds(1);
-        HUDStamina.text = "STAMINA " + config.runStamina.ToString("F1");
+
+        hud.SetNameText(photonView.Owner.NickName);
+        hud.SetStaminaText( "Stamina " + config.runStamina.ToString("F1"));
+        
+        if (config.isImposter)
+            hud.SetImposterText("I am Imposter");
+        else
+            hud.SetImposterText("I am Crewmate");
+
         StartCoroutine("UpdateHUD");
     }
 }

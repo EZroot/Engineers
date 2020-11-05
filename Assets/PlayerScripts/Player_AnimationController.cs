@@ -7,20 +7,26 @@ public class Player_AnimationController : MonoBehaviour
 {
     public Animator bodyAnimator;
     public Animator handsAnimator;
-
-    public AdvancedWalkerController controller;
     public Transform characterMeshTransform;
 
     //animation smooth value
     public float smoothingLerpValue = 10f;
 
+    //Walker
+    private AdvancedWalkerController controller;
+
     //turnspeed
-    Vector3 characterMeshDir;
+    private Vector3 characterMeshDir;
 
     //smoothing
-    float currentTurnSpeed = 0f;
-    Vector3 currentMovementVelocity;
-    Vector3 currentMomentum;
+    private float currentTurnSpeed = 0f;
+    private Vector3 currentMovementVelocity;
+    private Vector3 currentMomentum;
+
+    private void Start()
+    {
+        controller = GetComponent<AdvancedWalkerController>();
+    }
 
     private void Awake()
     {

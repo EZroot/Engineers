@@ -1,40 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Player_RagdollController : MonoBehaviour
+/// <summary>
+/// Make killimmediately a raise event
+/// so we can send vector3s properly
+/// </summary>
+public class Player_RagdollController : MonoBehaviourPun
 {
     //Disable to achieve ragdoll
     public Animator bodyAnimator;
     public Rigidbody[] ragdollRigidbodies;
 
-    //if this is enabled, turn off kinematics for ragdoll
-    public bool isRagdoll = false;
+    private Player_Respawner respawner;
+    private Rigidbody rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         //so we dont get unnessisary force applied, which slams the ragdoll
         foreach (Rigidbody rb in ragdollRigidbodies)
             rb.isKinematic = true;
     }
 
-    /// <summary>
-    /// Toggle Ragdoll between On/Off
-    /// </summary>
-    public void RagdollToggle()
+    //attackerPos - for direction of force
+    //force - for force
+    //hit position - for force on the point of the rigidbody
+    public void KillImmediataly(float force, Vector3 hitPoint)
+    {
+        RagdollOn();
+        rb.AddForceAtPosition((hitPoint - transform.position) * force, hitPoint, ForceMode.Impulse);
+    }
+
+    void RagdollOn()
     {
         //rigidbodies hold on to the force and slams the ragdoll if not kinematic while animating
-        bodyAnimator.enabled = !bodyAnimator.enabled;
-        if (!bodyAnimator.enabled)
+        bodyAnimator.enabled = false;
+        //if we are currently ragdoll
+        foreach (Rigidbody rb in ragdollRigidbodies)
+            rb.isKinematic = false;
+    }
+
+    void RagdollOff()
+    {
+        //rigidbodies hold on to the force and slams the ragdoll if not kinematic while animating
+        bodyAnimator.enabled = true;
+        foreach (Rigidbody rb in ragdollRigidbodies)
+            rb.isKinematic = true;
+    }
+
+    [PunRPC]
+    void RagdollToggle(int playerViewId, bool goRagdoll)
+    {
+        if (playerViewId != photonView.ViewID)
+            return;
+
+        if(goRagdoll)
         {
-            //if we are currently ragdoll
-            foreach (Rigidbody rb in ragdollRigidbodies)
-                rb.isKinematic = false;
+            RagdollOn();
         }
         else
         {
-            foreach (Rigidbody rb in ragdollRigidbodies)
-                rb.isKinematic = true;
+            RagdollOff();
         }
     }
 }
