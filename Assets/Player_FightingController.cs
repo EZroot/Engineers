@@ -38,6 +38,21 @@ public class Player_FightingController : MonoBehaviour
         isFighting = false;
     }
 
+    /*
+     * NEED TO CREATE A CUSTOM TIMER FOR THIS OR we will always hit where we last hit it, even if we really miss
+     */
+    IEnumerator PunchDelay(float delayHitTimer, RaycastHit hit)
+    {
+        yield return new WaitForSeconds(delayHitTimer);
+        //hit a draggable/door or something, apply force
+        if (hit.transform.tag == rigidbodyTag)
+        {
+            Rigidbody otherRb = hit.transform.gameObject.GetComponent<Rigidbody>();
+            otherRb.AddForceAtPosition((hit.point - transform.position) * 15f, hit.point, ForceMode.Impulse);
+            Debug.Log("Applied force on interactive " + otherRb.name);
+        }
+    }
+
     public void FightingControls(Player_Config config, Player_AnimationController controllerAnimation, Player_Controller controller)
     {
         if (Input.GetMouseButtonDown(1))
@@ -71,18 +86,13 @@ public class Player_FightingController : MonoBehaviour
                     if (hit.transform.tag == playerTag)
                     {
                         //kill the player
-                        hit.transform.gameObject.GetComponent<Player_Respawner>().KillImmediataly(transform.position, 5f);
+                        hit.transform.gameObject.GetComponent<Player_RagdollController>().RagdollToggle();
                         //apply a force
                     }
                 }
 
                 //hit a draggable/door or something, apply force
-                if (hit.transform.tag == rigidbodyTag)
-                {
-                    Rigidbody otherRb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                    otherRb.AddForceAtPosition((hit.point - transform.position) * 15f, hit.point, ForceMode.Impulse);
-                    Debug.Log("Applied force on interactive "+otherRb.name);
-                }
+                StartCoroutine(PunchDelay(0.5f, hit));
             }
 
         }

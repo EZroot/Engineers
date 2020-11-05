@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player_Config : MonoBehaviour
 {
+    public bool hideCursor = true;
     //Role
     public bool isImposter;
     public bool isEngineer;
@@ -25,4 +26,10 @@ public class Player_Config : MonoBehaviour
     public bool staminaExhausted = false;
     [HideInInspector]
     public float runStamina;
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = !hideCursor;
+    }
 }
