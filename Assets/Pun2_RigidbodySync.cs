@@ -83,8 +83,6 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
         {
             if (collisionObjectRoot.CompareTag("Player"))
             {
-                Debug.Log("COLLIDED WITH PLAYER");
-
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             }
             return;

@@ -48,9 +48,14 @@ public class Player_FightingController : MonoBehaviour
         //hit a draggable/door or something, apply force
         if (hit.transform.tag == rigidbodyTag)
         {
+            //transfer ownership if available
+            PhotonView otherPv = hit.transform.gameObject.GetComponent<PhotonView>();
+            if (otherPv != null && !otherPv.IsMine)
+                otherPv.TransferOwnership(PhotonNetwork.LocalPlayer);
+
+            //Apply force
             Rigidbody otherRb = hit.transform.gameObject.GetComponent<Rigidbody>();
             otherRb.AddForceAtPosition((hit.point - transform.position) * 15f, hit.point, ForceMode.Impulse);
-            Debug.Log("Applied force on interactive " + otherRb.name);
         }
     }
 
@@ -96,7 +101,7 @@ public class Player_FightingController : MonoBehaviour
                 }
 
                 //hit a draggable/door or something, apply force
-                StartCoroutine(PunchDelay(0.5f, hit));
+                StartCoroutine(PunchDelay(0.25f, hit));
             }
 
         }

@@ -21,7 +21,7 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetFloat("SidewardSpeed"));
             stream.SendNext(animator.GetFloat("TurnSpeed"));
             stream.SendNext(animator.GetFloat("TotalMovementSpeed"));
-
+            //stream.SendNext(animator.Trigg)
             //stream.SendNext(animatorState);
 
         }

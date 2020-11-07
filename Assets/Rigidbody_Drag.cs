@@ -12,20 +12,21 @@ public class Rigidbody_Drag : MonoBehaviourPun
 {
     public float force = 600;
     public float damping = 6;
+    public bool isGrabbed = false;
 
-    Transform jointTrans;
-    float dragDepth;
-
-	//public PUN2_RigidbodySync rigidbodySync;
-
+    private Transform jointTrans;
+    private float dragDepth;
     private Rigidbody thisRb;
 
-    private bool canDrag = true;
+    //for slottables
+    private Task_Plugin pluginTask;
 
     private void Start()
     {
+        pluginTask = GetComponent<Task_Plugin>();
         thisRb = GetComponent<Rigidbody>();
     }
+
     void OnMouseDown()
     {
         HandleInputBegin(Input.mousePosition);
@@ -41,40 +42,50 @@ public class Rigidbody_Drag : MonoBehaviourPun
         HandleInput(Input.mousePosition);
     }
 
+    public void StartDragging(RaycastHit hit)
+    {
+        //If its a plugin
+        if(pluginTask!=null)
+        {
+            if(pluginTask.isSlotted)
+            {
+                Debug.Log("Should be unslotted in 1 second.");
+                pluginTask.UnSlot();
+            }
+        }
+
+        //check to see if its a plugin/battery
+        photonView.RPC("IsGrabbedRPC", RpcTarget.AllBufferedViaServer, true);
+
+        //transform network ownership
+        photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+
+        dragDepth = Player_CameraPlane.CameraToPointDepth(Camera.allCameras[0], hit.point);
+        jointTrans = AttachJoint(hit.rigidbody, hit.point);
+    }
+
     public void StopDragging()
     {
-        canDrag = false;
-        if (!canDrag)
+        isGrabbed = false;
+        if (!isGrabbed)
         {
-            //tell our clients its now not grabbed anymore
-            //rigidbodySync.LetGoOfObject();
+            photonView.RPC("IsGrabbedRPC", RpcTarget.AllBufferedViaServer, false);
 
             if (jointTrans != null)
                 Destroy(jointTrans.gameObject);
-
-            canDrag = true;
         }
     }
 
     public void HandleInputBegin(Vector3 screenPosition)
     {
-        if (!canDrag)
+        if (isGrabbed)
             return;
 
         var ray = Camera.allCameras[0].ScreenPointToRay(screenPosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 4.0f))
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Interactive")) //&& !rigidbodySync.isGrabbed)
-            {
-				//tell our clients its grabbed
-				//rigidbodySync.GrabbedObject();
-                //transform network ownership
-				photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-
-                dragDepth = Player_CameraPlane.CameraToPointDepth(Camera.allCameras[0], hit.point);
-                jointTrans = AttachJoint(hit.rigidbody, hit.point);
-            }
+            StartDragging(hit);
         }
     }
 
@@ -91,14 +102,15 @@ public class Rigidbody_Drag : MonoBehaviourPun
 
     public void HandleInputEnd(Vector3 screenPosition)
     {
-        //if (rigidbodySync == null)
-        //    return;
-
         //tell our clients its now not grabbed anymore
-		//rigidbodySync.LetGoOfObject();
+        StopDragging();
 
-        if(jointTrans!=null)
-            Destroy(jointTrans.gameObject);
+    }
+
+    [PunRPC]
+    void IsGrabbedRPC(bool isgrabbed)
+    {
+        isGrabbed = isgrabbed;
     }
 
     Transform AttachJoint(Rigidbody rb, Vector3 attachmentPosition)

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Prop
+  - Plugin
+  - PluginSlot
+  - Battery
+  - BatterySlot
   layers:
   - Default
   - TransparentFX
