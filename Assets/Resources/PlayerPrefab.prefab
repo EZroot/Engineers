@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1472270080520595902}
   - component: {fileID: 1472270080520595892}
   - component: {fileID: 1472270080520595901}
+  - component: {fileID: 1620171607169138913}
   - component: {fileID: 1472270080520595897}
   - component: {fileID: 960445651453784265}
   - component: {fileID: 9054578767195071938}
@@ -489,6 +490,7 @@ MonoBehaviour:
   - {fileID: 1472270080520595903}
   - {fileID: 1472270080520595899}
   - {fileID: 1472270080520595898}
+  - {fileID: 1620171607169138913}
   removeObjectsFromOthers:
   - {fileID: 1472519796811981574}
   - {fileID: 8824781223987832700}
@@ -528,6 +530,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 1469691916275864814}
   bodyTransform: {fileID: 1475674423004363852}
+--- !u!114 &1620171607169138913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472270080520595900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74eeb3218d601184a9564220754ca8f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionDistance: 4
+  buttonTag: Button
 --- !u!114 &1472270080520595897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,8 +650,8 @@ Camera:
   m_GameObject: {fileID: 1472437573235736950}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.9044118, g: 0.9044118, b: 0.9044118, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

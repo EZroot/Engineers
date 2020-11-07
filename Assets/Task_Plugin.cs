@@ -6,7 +6,6 @@ using Photon.Pun;
 public class Task_Plugin : MonoBehaviourPun, IPlugin
 {
     private Rigidbody rb;
-    private Task_PluginSlot pluginSlot;
     private PhotonView pluginPhotonView;
 
     private bool isSlotted = false;
@@ -23,13 +22,12 @@ public class Task_Plugin : MonoBehaviourPun, IPlugin
         {
             if (other.tag == "PluginSlot")
             {
-                pluginSlot = other.gameObject.GetComponent<Task_PluginSlot>();
                 pluginPhotonView = other.gameObject.GetComponent<PhotonView>();
                 pluginPhotonView.RPC("UpdateSlot", RpcTarget.AllBufferedViaServer, true);
                 isSlotted = true;
                 rb.isKinematic = true;
-                transform.position = pluginSlot.transform.position;
-                transform.rotation = pluginSlot.transform.rotation;
+                transform.position = pluginPhotonView.transform.position;
+                transform.rotation = pluginPhotonView.transform.rotation;
                 //transform.parent = slot.transform;
             }
         }

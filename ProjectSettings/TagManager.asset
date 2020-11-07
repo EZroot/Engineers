@@ -9,6 +9,7 @@ TagManager:
   - PluginSlot
   - Battery
   - BatterySlot
+  - Button
   layers:
   - Default
   - TransparentFX
