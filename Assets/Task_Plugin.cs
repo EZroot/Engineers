@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Task_Plugin : MonoBehaviourPun
+public class Task_Plugin : MonoBehaviourPun, IPlugin
 {
-    public bool isSlotted = false;
     private Rigidbody rb;
+    private Task_PluginSlot pluginSlot;
+    private PhotonView pluginPhotonView;
+
+    private bool isSlotted = false;
+    public bool IsSlotted { get { return isSlotted; } set { isSlotted = value; } }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-    }
-
-    [PunRPC]
-    void IsSlottedRPC(bool isslotted)
-    {
-        isSlotted = isslotted;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,11 +23,13 @@ public class Task_Plugin : MonoBehaviourPun
         {
             if (other.tag == "PluginSlot")
             {
-                Task_PluginSlot slot = other.gameObject.GetComponent<Task_PluginSlot>();
+                pluginSlot = other.gameObject.GetComponent<Task_PluginSlot>();
+                pluginPhotonView = other.gameObject.GetComponent<PhotonView>();
+                pluginPhotonView.RPC("UpdateSlot", RpcTarget.AllBufferedViaServer, true);
                 isSlotted = true;
                 rb.isKinematic = true;
-                transform.position = slot.transform.position;
-                transform.rotation = slot.transform.rotation;
+                transform.position = pluginSlot.transform.position;
+                transform.rotation = pluginSlot.transform.rotation;
                 //transform.parent = slot.transform;
             }
         }
@@ -45,5 +45,13 @@ public class Task_Plugin : MonoBehaviourPun
     {
         yield return new WaitForSeconds(timer);
         photonView.RPC("IsSlottedRPC", RpcTarget.AllBufferedViaServer, false);
+        pluginPhotonView.RPC("UpdateSlot", RpcTarget.AllBufferedViaServer, false);
+        pluginPhotonView = null;
+    }
+
+    [PunRPC]
+    void IsSlottedRPC(bool isslotted)
+    {
+        isSlotted = isslotted;
     }
 }

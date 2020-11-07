@@ -47,7 +47,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
         //If its a plugin
         if(pluginTask!=null)
         {
-            if(pluginTask.isSlotted)
+            if(pluginTask.IsSlotted)
             {
                 Debug.Log("Should be unslotted in 1 second.");
                 pluginTask.UnSlot();

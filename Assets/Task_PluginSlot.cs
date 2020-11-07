@@ -1,18 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Task_PluginSlot : MonoBehaviour
+public class Task_PluginSlot : MonoBehaviourPun
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool isPluggedIn = false;
 
-    // Update is called once per frame
-    void Update()
+    [PunRPC]
+    void UpdateSlot(bool ispluggedin)
     {
-        
+        isPluggedIn = ispluggedin;
     }
 }
