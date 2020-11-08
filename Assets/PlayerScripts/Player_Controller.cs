@@ -10,6 +10,7 @@ public class Player_Controller : MonoBehaviourPun
     //to rotate body model
     public Transform cameraTransform;
     public Transform bodyTransform;
+    public Light flashLight;
 
     //components
     private AdvancedWalkerController controllerWalker;
@@ -41,12 +42,44 @@ public class Player_Controller : MonoBehaviourPun
 
     private void Update()
     {
+        FlashLightControls();
         RunningControls(config);
         //Melee/Gun play
         controllerFighting.FightingControls(config, controllerAnimation, this);
+        
         HighlightGrabbedObject(4f, "Interactive");
+        HighlightPlayersName();
 
         UpdateMovementStatus();
+    }
+
+    /// <summary>
+    /// Show the clients name that youre looking at
+    /// </summary>
+    private void HighlightPlayersName()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 5f))
+        {
+            if (hit.transform.tag == "Player")
+            {
+                hud.SetIdentityText(hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName);
+            }
+            hud.SetIdentityText("");
+        }
+    }
+
+    /// <summary>
+    /// Turning off and on the flashlight, synced in player sync
+    /// </summary>
+    private void FlashLightControls()
+    {
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("Enabling flashlight");
+            flashLight.enabled = !flashLight.enabled;
+        }
     }
 
     /// <summary>

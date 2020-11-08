@@ -1,0 +1,12 @@
+flashlight camera parent is disabled
+
+punching causes jitter because of transferownership not happening fast enough
+
+person collider way too big, needs to be halved
+
+when i carry and client collides makes it jitter
+
+game thinks plugin is plugged in, or something
+plugin is locked for client, even when he stretches the other end it wont move
+
+TRANSFER OWNERSHIP OF BOTH OBJS WHEN GRABBING OPPOSIDE END OF PLUGIN!

@@ -18,8 +18,11 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
 
     //Values that will be synced over network
     public Transform modelGfx;
+    public Light flashLight;
+
     Vector3 latestPos;
     Quaternion latestRot;
+    bool lightOn = false;
 
     // Use this for initialization
     void Start()
@@ -61,12 +64,14 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //We own this player: send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(modelGfx.transform.rotation);
+            stream.SendNext(flashLight.enabled);
         }
         else
         {
             //Network player, receive data
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
+            lightOn = (bool)stream.ReceiveNext();
         }
     }
 
@@ -79,6 +84,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             modelGfx.transform.rotation = Quaternion.Lerp(modelGfx.transform.rotation, latestRot, Time.deltaTime * 5);
+            flashLight.enabled = lightOn;
         }
     }
 

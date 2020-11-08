@@ -8,6 +8,7 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI imposterHudText;
     public TextMeshProUGUI nameHudText;
     public TextMeshProUGUI staminaHudText;
+    public TextMeshProUGUI identifyHudText;
 
     public void SetNameText(string text)
     {
@@ -22,5 +23,10 @@ public class Player_Hud : MonoBehaviour
     public void SetImposterText(string text)
     {
         imposterHudText.text = text;
+    }
+
+    public void SetIdentityText(string text)
+    {
+        identifyHudText.text = text;
     }
 }
