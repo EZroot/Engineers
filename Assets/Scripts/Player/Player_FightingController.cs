@@ -72,7 +72,9 @@ public class Player_FightingController : MonoBehaviour
                     //Rip off doors baby
                     HingeJoint doorhinge = hit.transform.gameObject.GetComponent<HingeJoint>();
                     if (doorhinge != null)
+                    {
                         Destroy(doorhinge);
+                    }
 
                     //hit obj
                     otherRb.AddForceAtPosition((hit.point - transform.position) * (punchForce * imposterForceMultiplier), hit.point, ForceMode.Impulse);

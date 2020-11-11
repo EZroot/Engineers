@@ -11,6 +11,20 @@ public class Task_DoorNumpad : MonoBehaviourPun, IInteractive
 
     public bool IsOn { get { return unlocked; } set { unlocked = value; } }
 
+    //dont lock it if the hinge joint doesnt exist (door torn off)
+    private HingeJoint[] doorHinges;
+
+    private void Start()
+    {
+        doorHinges = new HingeJoint[doors.Length];
+
+        for(int i =0; i < doors.Length;i++)
+        {
+            doorHinges[i] = doors[i].gameObject.GetComponent<HingeJoint>();
+        }
+    }
+
+    //unlocked
     public void On()
     {
         if(otherNumpad!=null)
@@ -18,12 +32,13 @@ public class Task_DoorNumpad : MonoBehaviourPun, IInteractive
             otherNumpad.unlocked = unlocked;
         }
 
-        foreach (Rigidbody rb in doors)
+        for(int i = 0; i < doors.Length;i++)
         {
-            rb.isKinematic = false;
+                doors[i].isKinematic = false;
         }
     }
 
+    //locked
     public void Off()
     {
         if (otherNumpad != null)
@@ -31,9 +46,14 @@ public class Task_DoorNumpad : MonoBehaviourPun, IInteractive
             otherNumpad.unlocked = unlocked;
         }
 
-        foreach (Rigidbody rb in doors)
+        for (int i = 0; i < doors.Length; i++)
         {
-            rb.isKinematic = true;
+            if (doorHinges[i] != null)
+                doors[i].isKinematic = true;
+            else
+                doors[i].isKinematic = false;
+
+            
         }
     }
 
@@ -51,4 +71,5 @@ public class Task_DoorNumpad : MonoBehaviourPun, IInteractive
             Off();
         }
     }
+
 }

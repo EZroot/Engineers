@@ -12,6 +12,7 @@ public class Player_Controller : MonoBehaviourPun
     public Transform cameraTransform;
     public Transform bodyTransform;
     public Light flashLight;
+    public LayerMask grabLayer;
 
     //components
     private AdvancedWalkerController controllerWalker;
@@ -20,6 +21,9 @@ public class Player_Controller : MonoBehaviourPun
     private Player_FightingController controllerFighting;
     private Player_Config config;
     private Player_Hud hud;
+
+    private LineRenderer lineRenderGrab;
+    private GameObject hitObject = null;
 
     private bool monstersHidden = false;
     //movement
@@ -33,9 +37,15 @@ public class Player_Controller : MonoBehaviourPun
         controllerAnimation = GetComponent<Player_AnimationController>();
         controllerRagdoll = GetComponent<Player_RagdollController>();
         controllerFighting = GetComponent<Player_FightingController>();
-
         config = GetComponent<Player_Config>();
         hud = GetComponent<Player_Hud>();
+
+        lineRenderGrab = gameObject.GetComponent<LineRenderer>();
+        lineRenderGrab.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero });
+        lineRenderGrab.startColor = Color.white;
+        lineRenderGrab.endColor = Color.white;
+        lineRenderGrab.startWidth = 0.002f;
+        lineRenderGrab.endWidth = 0.002f;
 
         //stamina
         config.runStamina = config.staminaLevel;
@@ -51,7 +61,7 @@ public class Player_Controller : MonoBehaviourPun
         //Melee/Gun play
         controllerFighting.FightingControls(config, controllerAnimation, this);
         
-        HighlightGrabbedObject(4f, "Interactive");
+        HighlightGrabbedObject(4f, grabLayer);
         HighlightInteractables();
         MinimapControls();
 
@@ -109,6 +119,7 @@ public class Player_Controller : MonoBehaviourPun
                     hud.SetIdentityText("Button");
                 }
             }
+
             if(hit.transform.tag=="Untagged")
             {
                 hud.SetIdentityText("");
@@ -137,24 +148,32 @@ public class Player_Controller : MonoBehaviourPun
     /// </summary>
     /// <param name="grabDistance"></param>
     /// <param name="grabbableTag"></param>
-    private void HighlightGrabbedObject(float grabDistance, string grabbableTag)
+    private void HighlightGrabbedObject(float grabDistance, LayerMask grabLayer)
     {
-        if(Input.GetMouseButton(0))
+        Vector3 startGrabPos = Vector3.zero;
+
+        Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, grabDistance, grabLayer))
         {
-            Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, grabDistance))
+            if (Input.GetMouseButtonDown(0))
             {
-                //if were dragging a draggable
-                if (hit.transform.tag == grabbableTag)
-                {
-                    //highlight it with fancy shaders,
-                    //disable our movement? slow us down?
-                    //show animation of hand
-                    //controllerAnimation.Set
-                    StopMoving = true;
-                }
+                hitObject = hit.transform.gameObject;
             }
+        }
+
+        if (Input.GetMouseButton(0) && hitObject != null)
+        {
+            startGrabPos = ray.origin + cameraTransform.forward;
+            lineRenderGrab.SetPositions(new Vector3[] { startGrabPos, hitObject.transform.position });
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            lineRenderGrab.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero });
+
+            startGrabPos = Vector3.zero;
+            hitObject = null;
         }
     }
 
