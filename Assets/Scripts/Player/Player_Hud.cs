@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_Hud : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI nameHudText;
     public TextMeshProUGUI staminaHudText;
     public TextMeshProUGUI identifyHudText;
+    public RawImage minimapHud;
+    public Camera minimapCam;
 
     public void SetNameText(string text)
     {
@@ -28,5 +31,11 @@ public class Player_Hud : MonoBehaviour
     public void SetIdentityText(string text)
     {
         identifyHudText.text = text;
+    }
+
+    public void MinimapToggle()
+    {
+        minimapCam.enabled = !minimapCam.enabled;
+        minimapHud.enabled = !minimapHud.enabled;
     }
 }

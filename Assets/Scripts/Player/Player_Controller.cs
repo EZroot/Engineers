@@ -1,5 +1,6 @@
 ﻿using CMF;
 using Photon.Pun;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -52,6 +53,7 @@ public class Player_Controller : MonoBehaviourPun
         
         HighlightGrabbedObject(4f, "Interactive");
         HighlightInteractables();
+        MinimapControls();
 
         //prevents monster model from showing to myself
         if (config.isImposter && !monstersHidden)
@@ -64,6 +66,15 @@ public class Player_Controller : MonoBehaviourPun
         }
 
         UpdateMovementStatus();
+    }
+
+    private void MinimapControls()
+    {
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            hud.MinimapToggle();
+            Debug.Log("minimap toggled");
+        }
     }
 
     /// <summary>

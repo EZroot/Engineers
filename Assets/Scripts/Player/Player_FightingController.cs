@@ -23,8 +23,18 @@ public class Player_FightingController : MonoBehaviour
     public float axeTimer = 1.6f;
     public float pistolShotTimer = 1f;
 
+    public float punchForce = 15f;
+    public float imposterForceMultiplier = 3f;
+
     private bool isFighting = false;
     private bool punchCooldownOn = false;
+
+    private Player_Config config;
+
+    private void Start()
+    {
+        config = GetComponent<Player_Config>();
+    }
 
     IEnumerator PunchCooldownTimer(Player_AnimationController controllerAnimation, Player_Controller controller)
     {
@@ -57,7 +67,18 @@ public class Player_FightingController : MonoBehaviour
 
                 //Apply force
                 Rigidbody otherRb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                otherRb.AddForceAtPosition((hit.point - transform.position) * 15f, hit.point, ForceMode.Impulse);
+                if (config.isImposter)
+                {
+                    //Rip off doors baby
+                    HingeJoint doorhinge = hit.transform.gameObject.GetComponent<HingeJoint>();
+                    if (doorhinge != null)
+                        Destroy(doorhinge);
+
+                    //hit obj
+                    otherRb.AddForceAtPosition((hit.point - transform.position) * (punchForce * imposterForceMultiplier), hit.point, ForceMode.Impulse);
+                }
+                else
+                    otherRb.AddForceAtPosition((hit.point - transform.position) * punchForce, hit.point, ForceMode.Impulse);
             }
         }
     }
