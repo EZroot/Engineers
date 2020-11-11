@@ -50,8 +50,14 @@ public class Player_AnimationController : MonoBehaviour
         currentMovementVelocity = Vector3.Lerp(currentMovementVelocity, _movementVelocity, Time.deltaTime * smoothingLerpValue);
 
         //Smooth hand blending
-        if (config.handsAnimator != null)
-            config.handsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+        if (!config.isImposter)
+        {
+            config.humanHandsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+        }
+        else
+        {
+            config.monsterHandsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+        }
 
         float _forwardSpeed = VectorMath.GetDotProduct(currentMovementVelocity, characterMeshTransform.forward);
         float _sidewardSpeed = VectorMath.GetDotProduct(currentMovementVelocity, characterMeshTransform.right);
@@ -93,11 +99,18 @@ public class Player_AnimationController : MonoBehaviour
 
     public void TriggerPunch()
     {
-        config.handsAnimator.SetTrigger("Punch");
+        if(config.isImposter)
+            config.monsterHandsAnimator.SetTrigger("Punch");
+        else
+            config.humanHandsAnimator.SetTrigger("Punch");
+
     }
 
     public void ResetTriggerPunch()
     {
-        config.handsAnimator.ResetTrigger("Punch");
+        if (config.isImposter)
+            config.monsterHandsAnimator.ResetTrigger("Punch");
+        else
+            config.humanHandsAnimator.ResetTrigger("Punch");
     }
 }

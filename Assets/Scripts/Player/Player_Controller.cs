@@ -20,6 +20,7 @@ public class Player_Controller : MonoBehaviourPun
     private Player_Config config;
     private Player_Hud hud;
 
+    private bool monstersHidden = false;
     //movement
     private bool stopMoving = false;
     public bool StopMoving { get { return stopMoving; } set { stopMoving = value; } }
@@ -53,9 +54,13 @@ public class Player_Controller : MonoBehaviourPun
         HighlightInteractables();
 
         //prevents monster model from showing to myself
-        if(config.isImposter && config.monster.activeSelf)
+        if (config.isImposter && !monstersHidden)
         {
-            config.monster.SetActive(false);
+            for(int i =0; i < config.monsterGraphics.Length-1;i++) //hard coded to not hide hands
+            {
+                config.monsterGraphics[i].SetActive(false);
+            }
+            monstersHidden = true;
         }
 
         UpdateMovementStatus();
