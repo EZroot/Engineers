@@ -40,11 +40,11 @@ public class Player_FightingController : MonoBehaviour
     {
         isFighting = true;
         controllerAnimation.TriggerPunch();
-        controller.StopMoving = true;
+        //controller.StopMoving = true;
         punchCooldownOn = true;
         yield return new WaitForSeconds(punchTimer);
         punchCooldownOn = false;
-        controller.StopMoving = false;
+        //controller.StopMoving = false;
         controllerAnimation.ResetTriggerPunch();
         isFighting = false;
     }

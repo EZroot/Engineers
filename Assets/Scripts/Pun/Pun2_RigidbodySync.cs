@@ -85,7 +85,11 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
             {
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             }
-            return;
+            /*if(((1<<collisionObjectRoot.gameObject.layer) & LayerMask.NameToLayer("Interactive")) ==0)
+            {
+                photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
+                Debug.Log("Colliding with interactive");
+            } causes weird glitches */
         }
     }
 }

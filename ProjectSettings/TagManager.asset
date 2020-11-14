@@ -11,6 +11,7 @@ TagManager:
   - BatterySlot
   - Button
   - Door
+  - Computer
   layers:
   - Default
   - TransparentFX

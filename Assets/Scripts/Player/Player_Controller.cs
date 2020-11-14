@@ -120,7 +120,12 @@ public class Player_Controller : MonoBehaviourPun
                 }
             }
 
-            if(hit.transform.tag=="Untagged")
+            if (hit.transform.tag == "Plugin")
+            {
+                hud.SetIdentityText("Plugin");
+            }
+
+            if (hit.transform.tag=="Untagged")
             {
                 hud.SetIdentityText("");
             }
