@@ -11,6 +11,8 @@ empty space station, super expensive items on it and abandoned
 
 Ideas:
 
+- Mobile/handlight that you can carry or place around
+
 - Writing task with keyboard?
 
 - one part in HL2 requires you to find multiple car batteries and insert them to progress

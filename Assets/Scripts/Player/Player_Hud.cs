@@ -9,6 +9,8 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI imposterHudText;
     public TextMeshProUGUI nameHudText;
     public TextMeshProUGUI staminaHudText;
+    public TextMeshProUGUI oxygenHudText;
+    public TextMeshProUGUI temperatureHudText;
     public TextMeshProUGUI identifyHudText;
     public RawImage minimapHud;
     public Camera minimapCam;
@@ -21,6 +23,16 @@ public class Player_Hud : MonoBehaviour
     public void SetStaminaText(string text)
     {
         staminaHudText.text = text;
+    }
+
+    public void SetOxygenText(string text)
+    {
+        oxygenHudText.text = text;
+    }
+
+    public void SetTemperatureText(string text)
+    {
+        temperatureHudText.text = text;
     }
 
     public void SetImposterText(string text)

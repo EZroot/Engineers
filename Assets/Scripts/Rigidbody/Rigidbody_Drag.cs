@@ -16,7 +16,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
 
     private Transform jointTrans;
     private float dragDepth;
-    private Rigidbody thisRb;
+    public Rigidbody thisRb;
 
     //for slottables
     private Task_Plugin pluginTask;
@@ -58,6 +58,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
         photonView.RPC("IsGrabbedRPC", RpcTarget.AllBufferedViaServer, true);
 
         //transform network ownership
+        //this glitches when it collides with another owner
         photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
 
         dragDepth = Player_CameraPlane.CameraToPointDepth(Camera.allCameras[0], hit.point);

@@ -14,6 +14,8 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
     private bool initStream;
     private bool wasHost;
 
+    private Rigidbody_Drag rbDrag;
+
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -47,6 +49,8 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        rbDrag = GetComponent<Rigidbody_Drag>();
+
         //gameObject.tag = "NetworkProp";
         initStream = true;
         wasHost = true;
@@ -81,6 +85,13 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
 
         if (!photonView.IsMine)
         {
+            //gets rid of jitter caused by unneeded transfer ownership
+            if (rbDrag != null)
+            { 
+                if (rbDrag.isGrabbed)
+                    return;
+            }
+
             if (collisionObjectRoot.CompareTag("Player"))
             {
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);

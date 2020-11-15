@@ -13,6 +13,8 @@ public class Player_Controller : MonoBehaviourPun
     public Transform bodyTransform;
     public Light flashLight;
     public LayerMask grabLayer;
+    
+    public float throwForce = 5f;
 
     //components
     private AdvancedWalkerController controllerWalker;
@@ -125,6 +127,11 @@ public class Player_Controller : MonoBehaviourPun
                 hud.SetIdentityText("Plugin");
             }
 
+            if (hit.transform.tag == "Lantern")
+            {
+                hud.SetIdentityText("Lantern");
+            }
+
             if (hit.transform.tag=="Untagged")
             {
                 hud.SetIdentityText("");
@@ -164,6 +171,7 @@ public class Player_Controller : MonoBehaviourPun
             if (Input.GetMouseButtonDown(0))
             {
                 hitObject = hit.transform.gameObject;
+                config.canAttack = false;
             }
         }
 
@@ -179,6 +187,26 @@ public class Player_Controller : MonoBehaviourPun
 
             startGrabPos = Vector3.zero;
             hitObject = null;
+            config.canAttack = true;
+        }
+
+        //Throwing
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (hitObject == null)
+                return;
+            Rigidbody_Drag rbDrag = hitObject.GetComponent<Rigidbody_Drag>();
+            if (rbDrag == null)
+                return;
+
+            rbDrag.StopDragging();
+            rbDrag.thisRb.AddForceAtPosition((hitObject.transform.position - transform.position) * (throwForce), hitObject.transform.position, ForceMode.Impulse);
+
+            lineRenderGrab.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero });
+
+            startGrabPos = Vector3.zero;
+            hitObject = null;
+            config.canAttack = true;
         }
     }
 

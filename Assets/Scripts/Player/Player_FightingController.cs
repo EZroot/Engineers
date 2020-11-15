@@ -60,11 +60,6 @@ public class Player_FightingController : MonoBehaviour
         {
             if (hit.transform.tag == tag)
             {
-                //transfer ownership if available
-                PhotonView otherPv = hit.transform.gameObject.GetComponent<PhotonView>();
-                if (otherPv != null && !otherPv.IsMine)
-                    otherPv.TransferOwnership(PhotonNetwork.LocalPlayer);
-
                 //Apply force
                 Rigidbody otherRb = hit.transform.gameObject.GetComponent<Rigidbody>();
                 if (config.isImposter)
@@ -87,6 +82,9 @@ public class Player_FightingController : MonoBehaviour
 
     public void FightingControls(Player_Config config, Player_AnimationController controllerAnimation, Player_Controller controller)
     {
+        if (!config.canAttack)
+            return;
+
         if (Input.GetMouseButtonDown(1))
         {
             //so we can punch and move after animation is done
@@ -125,6 +123,11 @@ public class Player_FightingController : MonoBehaviour
                         //apply a force
                     }
                 }
+
+                //transfer ownership if available
+                PhotonView otherPv = hit.transform.gameObject.GetComponent<PhotonView>();
+                if (otherPv != null && !otherPv.IsMine)
+                    otherPv.TransferOwnership(PhotonNetwork.LocalPlayer);
 
                 //hit a draggable/door or something, apply force
                 StartCoroutine(PunchDelay(0.25f, hit));

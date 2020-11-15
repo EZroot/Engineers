@@ -5,4 +5,8 @@ using UnityEngine;
 public interface ITask
 {
     string GetInfo();
+    bool IsBroken();
+    void OutlineTaskOn();
+    void OutlineTaskOff();
+    void Sabotage();
 }

@@ -15,12 +15,15 @@ public class Task_ComputerInfo : MonoBehaviour
     {
         taskInfo = taskObject.GetComponent<ITask>();
         StartCoroutine(UpdateText(1f));
+        Debug.Log(taskObject.name);
     }
 
     IEnumerator UpdateText(float delay)
     {
         yield return new WaitForSeconds(delay);
         infoTextMesh.text = taskInfo.GetInfo();
-        StartCoroutine(UpdateText(delay));
+        Debug.Log("Updaitng console text for " + taskObject.name);
+
+        StartCoroutine(UpdateText(delay)); 
     }
 }

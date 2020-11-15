@@ -15,12 +15,16 @@ public class Player_Config : MonoBehaviourPun
     public Animator monsterHandsAnimator;
 
     public bool hideCursor = true;
+
     //Role
     public bool isImposter;
     public bool isEngineer;
     public bool isChemist;
     public bool isBotanist;
     public bool isInvestigator;
+
+    //attack
+    public bool canAttack = true;
 
     //speed
     public int walkSpeed = 2;
@@ -29,6 +33,12 @@ public class Player_Config : MonoBehaviourPun
     //Stamina
     public int staminaLevel = 60;
     public int staminaLevelForRecover = 15;
+
+    //Oxygen
+    public int oxygenLevel = 100;
+
+    //Temperature
+    public int temperatureLevel = 21;
 
     [HideInInspector]
     public bool canRun = true;
