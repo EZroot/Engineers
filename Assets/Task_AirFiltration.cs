@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
+using Photon.Pun;
 
-public class Task_AirFiltration : MonoBehaviour, ITask
+public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
 {
-    
-    private Outline outline;
-
     public bool isSabotaged = false;
     private float sabotageTimer = 60f;
     private float sabotageCounter = 0f;
 
-    private bool dirtyFilter = true;
+    public bool dirtyFilter = true;
+    private bool isPowered = false;
+
+    private Outline outline;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class Task_AirFiltration : MonoBehaviour, ITask
             if (!outline.enabled)
                 outline.enabled = true;
 
+            //maintains dirty filter so it cant be fixed
             dirtyFilter = true;
 
             sabotageCounter += 5f * Time.deltaTime;
@@ -41,7 +43,7 @@ public class Task_AirFiltration : MonoBehaviour, ITask
             return;
         }
 
-        if (!dirtyFilter)
+        if (!dirtyFilter && isPowered)
             outline.enabled = false;
         else
             outline.enabled = true;
@@ -49,11 +51,20 @@ public class Task_AirFiltration : MonoBehaviour, ITask
 
     public string GetInfo()
     {
-        string returnText = "AIR FILTRATION STATUS\n";
+        string returnText = "AIR_FILTRATION_STATUS\n";
         if (!dirtyFilter)
-            returnText += "ACTIVE\n";
+            returnText += "Filter Status: Clean\n";
         else
-            returnText += "!ERROR!\n";
+            returnText += "Filter Status: DIRTY\n";
+
+        if(isPowered)
+        {
+            returnText += "Status: Powered\n";
+        }
+        else
+        {
+            returnText += "ERR; Power Outage\n";
+        }
 
         if (isSabotaged)
         {
@@ -79,8 +90,25 @@ public class Task_AirFiltration : MonoBehaviour, ITask
         outline.enabled = false;
     }
 
+    [PunRPC]
     public void Sabotage()
     {
         isSabotaged = true;
+    }
+
+    [PunRPC]
+    public void CleanFilter()
+    {
+        dirtyFilter = false;
+    }
+
+    public void SetPower(bool powered)
+    {
+        isPowered = powered;
+    }
+
+    public bool IsPowered()
+    {
+        return isPowered;
     }
 }

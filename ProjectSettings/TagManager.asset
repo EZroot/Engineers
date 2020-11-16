@@ -12,6 +12,9 @@ TagManager:
   - Button
   - Door
   - Computer
+  - Latern
+  - AirFilter
+  - Generator
   layers:
   - Default
   - TransparentFX

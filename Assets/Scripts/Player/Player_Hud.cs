@@ -12,6 +12,8 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI oxygenHudText;
     public TextMeshProUGUI temperatureHudText;
     public TextMeshProUGUI identifyHudText;
+    public TextMeshProUGUI progressBar;
+
     public RawImage minimapHud;
     public Camera minimapCam;
 
@@ -43,6 +45,11 @@ public class Player_Hud : MonoBehaviour
     public void SetIdentityText(string text)
     {
         identifyHudText.text = text;
+    }
+
+    public void SetProgressBarText(string text)
+    {
+        progressBar.text = text;
     }
 
     public void MinimapToggle()

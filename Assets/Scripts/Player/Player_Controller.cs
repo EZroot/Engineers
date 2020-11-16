@@ -76,10 +76,12 @@ public class Player_Controller : MonoBehaviourPun
             }
             monstersHidden = true;
         }
-
         UpdateMovementStatus();
     }
 
+    /// <summary>
+    /// Displays minimap, updates player position accordingly, should show points of interest as well as room names?
+    /// </summary>
     private void MinimapControls()
     {
         if(Input.GetKeyDown(KeyCode.M))

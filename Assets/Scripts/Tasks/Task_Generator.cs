@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
+using Photon.Pun;
 
-public class Task_Generator : MonoBehaviour, ITask
+public class Task_Generator : MonoBehaviourPun, ITask
 {
     public Light[] lights;
     public GameObject[] emergencyLights; //for emergency spotlight gameobjects only; need to disable the object bc it shows unlit texture if we just disbale light
+    
+    //grab stuff like air filter which would require power
+    public GameObject[] objectsToBePowered;
+    private IPowered[] tasksToBePowered;
 
     public Task_PluginSlot pluginSlot;
     public Task_Button button;
@@ -21,6 +26,13 @@ public class Task_Generator : MonoBehaviour, ITask
     {
         outline = GetComponent<Outline>();
         outline.enabled = false;
+
+        //power other task components
+        tasksToBePowered = new IPowered[objectsToBePowered.Length];
+        for(int i =0;i < objectsToBePowered.Length;i++)
+        {
+            tasksToBePowered[i] = objectsToBePowered[i].GetComponent<IPowered>();
+        }
     }
 
     private void Update()
@@ -42,6 +54,11 @@ public class Task_Generator : MonoBehaviour, ITask
             foreach (GameObject o in emergencyLights)
             {
                 o.SetActive(true);
+            }
+
+            foreach(IPowered poweredItem in tasksToBePowered)
+            {
+                poweredItem.SetPower(false);
             }
 
             sabotageCounter += 5f * Time.deltaTime;
@@ -72,6 +89,11 @@ public class Task_Generator : MonoBehaviour, ITask
                 }
             }
 
+            foreach (IPowered poweredItem in tasksToBePowered)
+            {
+                poweredItem.SetPower(true);
+            }
+
             //turn off emergency lights
             foreach (GameObject o in emergencyLights)
             {
@@ -90,23 +112,28 @@ public class Task_Generator : MonoBehaviour, ITask
             {
                 o.SetActive(true);
             }
+
+            foreach (IPowered poweredItem in tasksToBePowered)
+            {
+                poweredItem.SetPower(false);
+            }
         }
     }
 
     public string GetInfo()
     {
-        string returnText = "GENERATOR STATUS\n";
+        string returnText = "GENERATOR_STATUS\n";
         if (pluginSlot.isPluggedIn)
-            returnText += "ACTIVE\n";
+            returnText += "Status: Powering components\n";
         else
-            returnText += "!ERROR!\n";
+            returnText += "!ERROR! No power produced\n";
 
         if (pluginSlot.isPluggedIn)
         {
             if (button.IsOn)
-                returnText += "STATUS: ON\n";
+                returnText += "Lights: ON\n";
             else
-                returnText += "STATUS: OFF\n";
+                returnText += "Lights: OFF\n";
         }
 
         if(isSabotaged)
@@ -125,6 +152,7 @@ public class Task_Generator : MonoBehaviour, ITask
         return false;
     }
 
+    [PunRPC]
     public void Sabotage()
     {
         isSabotaged = true;
