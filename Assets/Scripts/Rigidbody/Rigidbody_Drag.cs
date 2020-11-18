@@ -21,10 +21,23 @@ public class Rigidbody_Drag : MonoBehaviourPun
     //for slottables
     private Task_Plugin pluginTask;
 
+    public bool playThumpSound = true;
+    private AudioSource audioSource;
+
     private void Start()
     {
         pluginTask = GetComponent<Task_Plugin>();
         thisRb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (audioSource == null || !playThumpSound)
+            return;
+        //depending on velocity mag we should player louder sounds
+        //if(thisRb.velocity.magnitude>1f)
+            audioSource.Play();
     }
 
     void OnMouseDown()

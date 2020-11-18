@@ -36,10 +36,10 @@ public class Player_InteractionController : MonoBehaviourPun
             if (Physics.Raycast(ray, out hit, interactionDistance))
             {
                 //press a button
-                if (hit.transform.tag == buttonTag)
+                if (hit.collider.transform.tag == buttonTag)
                 {
-                    interactive = hit.transform.GetComponent<IInteractive>();
-                    otherPV = hit.transform.GetComponent<PhotonView>();
+                    interactive = hit.collider.transform.GetComponent<IInteractive>();
+                    otherPV = hit.collider.transform.GetComponent<PhotonView>();
                     if(interactive!=null)
                     {
                         otherPV.RPC("PressedButton", RpcTarget.AllBufferedViaServer, !interactive.IsOn);

@@ -22,6 +22,8 @@ public class Task_Generator : MonoBehaviourPun, ITask
     private float sabotageTimer = 60f;
     private float sabotageCounter = 0f;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
         outline = GetComponent<Outline>();
@@ -33,6 +35,8 @@ public class Task_Generator : MonoBehaviourPun, ITask
         {
             tasksToBePowered[i] = objectsToBePowered[i].GetComponent<IPowered>();
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -73,6 +77,9 @@ public class Task_Generator : MonoBehaviourPun, ITask
 
         if(pluginSlot.isPluggedIn)
         {
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+
             //turn off/on lights if button is on
             if (button.IsOn)
             {
@@ -102,6 +109,8 @@ public class Task_Generator : MonoBehaviourPun, ITask
         }
         else
         {
+            if (audioSource.isPlaying)
+                audioSource.Stop();
             //turn off lights
             foreach (Light l in lights)
             {

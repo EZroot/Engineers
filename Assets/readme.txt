@@ -11,6 +11,11 @@ empty space station, super expensive items on it and abandoned
 
 Ideas:
 
+i think for one of the end goals for crew is to gather the items to fix the space ship and they can leave on that
+because theyll have to communicate who has the items, and what not, which will let the imposter know who to kill
+1 person hordes the items you better protect his ass
+might make the station head toward the sun too as a "timer"
+
 - Mobile/handlight that you can carry or place around
 
 - Writing task with keyboard?

@@ -76,6 +76,10 @@ public class Player_Controller : MonoBehaviourPun
             }
             monstersHidden = true;
         }
+
+        UpdateOxygen();
+        UpdateTemperature();
+
         UpdateMovementStatus();
     }
 
@@ -270,6 +274,47 @@ public class Player_Controller : MonoBehaviourPun
     }
 
     /// <summary>
+    /// Update Oxygen
+    /// </summary>
+    void UpdateOxygen()
+    {
+        if (TaskManager.Instance.GetAirFilter() == null)
+        {
+            Debug.Log("TASK MANAGER TASKS NOT SET!!!");
+            return;
+        }
+
+        if(TaskManager.Instance.GetAirFilter().IsBroken())
+        {
+            config.oxygenLevel -= (0.9f * Time.deltaTime);
+        }
+        else
+        {
+            if(config.oxygenLevel<100)
+                config.oxygenLevel += (0.9f * Time.deltaTime);
+        }
+    }
+
+    void UpdateTemperature()
+    {
+        if (TaskManager.Instance.GetGeneratorTask() == null)
+        {
+            Debug.Log("TASK MANAGER TASKS NOT SET!!!");
+            return;
+        }
+
+        if(TaskManager.Instance.GetGeneratorTask().IsBroken())
+        {
+            config.temperatureLevel -= (0.66f * Time.deltaTime);
+        }
+        else
+        {
+            if (config.temperatureLevel <= 21)
+                config.temperatureLevel += (0.9f * Time.deltaTime);
+        }
+    }
+
+    /// <summary>
     /// Update HUD every second
     /// </summary>
     /// <returns></returns>
@@ -278,8 +323,10 @@ public class Player_Controller : MonoBehaviourPun
         yield return new WaitForSeconds(1);
 
         hud.SetNameText(photonView.Owner.NickName);
-        hud.SetStaminaText( "Stamina " + config.runStamina.ToString("F1"));
-        
+        hud.SetStaminaText( "Stamina " + config.runStamina.ToString("F0"));
+        hud.SetOxygenText("Oxygen: " + config.oxygenLevel.ToString("F0") + "%");
+        hud.SetTemperatureText("Temperature: " + config.temperatureLevel.ToString("F1") + "°C");
+
         if (config.isImposter)
             hud.SetImposterText("I am Imposter");
         else

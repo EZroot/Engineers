@@ -34,12 +34,10 @@ public class Player_Config : MonoBehaviourPun
     public int staminaLevel = 60;
     public int staminaLevelForRecover = 15;
 
-    //Oxygen
-    public int oxygenLevel = 100;
-
-    //Temperature
-    public int temperatureLevel = 21;
-
+    [HideInInspector]
+    public float oxygenLevel = 100;
+    [HideInInspector]
+    public float temperatureLevel = 21;
     [HideInInspector]
     public bool canRun = true;
     [HideInInspector]

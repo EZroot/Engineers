@@ -60,7 +60,6 @@ namespace CMF
 
 			//Calculate horizontal velocity;
 			Vector3 _horizontalVelocity = VectorMath.RemoveDotVector(_velocity, tr.up);
-
 			FootStepUpdate(_horizontalVelocity.magnitude);
 		}
 
@@ -71,7 +70,7 @@ namespace CMF
 			if(useAnimationBasedFootsteps)
 			{
 				//Get current foot step value from animator;
-				float _newFootStepValue = animator.GetFloat("FootStep");
+				float _newFootStepValue = animator.GetFloat("TotalMovementSpeed");
 
 				//Play a foot step audio clip whenever the foot step value changes its sign;
 				if((currentFootStepValue <= 0f && _newFootStepValue > 0f) || (currentFootStepValue >= 0f && _newFootStepValue < 0f))

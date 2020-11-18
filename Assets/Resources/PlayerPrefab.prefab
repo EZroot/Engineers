@@ -357,6 +357,7 @@ GameObject:
   - component: {fileID: 960445651453784265}
   - component: {fileID: 9054578767195071938}
   - component: {fileID: 4384369031847705799}
+  - component: {fileID: 2984616193076234131}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -713,7 +714,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   removeScriptsFromOthers:
-  - {fileID: 1584305907303551166}
   - {fileID: 1584490451953532554}
   - {fileID: 1585029842476840090}
   - {fileID: 1472270080520595901}
@@ -989,6 +989,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &2984616193076234131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472270080520595900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad22d15593961e343a25cd9ce9b85d81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1472437573235736950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1164,7 @@ MonoBehaviour:
   lineThickness: 1.25
   lineIntensity: 0.5
   fillAmount: 0
-  lineColor0: {r: 1, g: 0, b: 0, a: 1}
+  lineColor0: {r: 1, g: 0.9023271, b: 0, a: 1}
   lineColor1: {r: 0, g: 1, b: 0, a: 1}
   lineColor2: {r: 0, g: 0, b: 1, a: 1}
   additiveRendering: 0
