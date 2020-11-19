@@ -14,8 +14,6 @@ public class Player_Config : MonoBehaviourPun
     public Animator humanHandsAnimator;
     public Animator monsterHandsAnimator;
 
-    public bool hideCursor = true;
-
     //Role
     public bool isImposter;
     public bool isEngineer;
@@ -48,7 +46,19 @@ public class Player_Config : MonoBehaviourPun
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = !hideCursor;
+        Cursor.visible = false;
+    }
+
+    public void CursorOn()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void CursorOff()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     [PunRPC]

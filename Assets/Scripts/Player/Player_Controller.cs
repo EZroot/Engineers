@@ -28,6 +28,7 @@ public class Player_Controller : MonoBehaviourPun
     private GameObject hitObject = null;
 
     private bool monstersHidden = false;
+    private bool showMinimap = false;
     //movement
     private bool stopMoving = false;
     public bool StopMoving { get { return stopMoving; } set { stopMoving = value; } }
@@ -88,10 +89,19 @@ public class Player_Controller : MonoBehaviourPun
     /// </summary>
     private void MinimapControls()
     {
-        if(Input.GetKeyDown(KeyCode.M))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
-            hud.MinimapToggle();
-            Debug.Log("minimap toggled");
+            showMinimap = !showMinimap;
+            if (showMinimap)
+            {
+                hud.MinimapOn();
+                //config.CursorOn();
+            }
+            else
+            {
+                hud.MinimapOff();
+                //config.CursorOff();
+            }
         }
     }
 
@@ -295,6 +305,9 @@ public class Player_Controller : MonoBehaviourPun
         }
     }
 
+    /// <summary>
+    /// Update temperature
+    /// </summary>
     void UpdateTemperature()
     {
         if (TaskManager.Instance.GetGeneratorTask() == null)
@@ -328,9 +341,31 @@ public class Player_Controller : MonoBehaviourPun
         hud.SetTemperatureText("Temperature: " + config.temperatureLevel.ToString("F1") + "°C");
 
         if (config.isImposter)
+        {
             hud.SetImposterText("I am Imposter");
+            hud.SetTaskText("");
+        }
         else
+        {
             hud.SetImposterText("I am Crewmate");
+            //depending on role, set tasks accordingly
+            if (!TaskManager.Instance.GetAirFilter().IsBroken() && TaskManager.Instance.GetGeneratorTask().IsBroken())
+            {
+                hud.SetTaskText("[   ] Generator Repaired\n[ X ] AirFilter Cleaned");
+            }
+            else if(TaskManager.Instance.GetAirFilter().IsBroken() && !TaskManager.Instance.GetGeneratorTask().IsBroken())
+            {
+                hud.SetTaskText("[ X ] Generator Repaired\n[   ] AirFilter Cleaned");
+            }
+            else if(TaskManager.Instance.GetAirFilter().IsBroken() && TaskManager.Instance.GetGeneratorTask().IsBroken())
+            {
+                hud.SetTaskText("[   ] Generator Repaired\n[   ] AirFilter Cleaned");
+            }
+            else if (!TaskManager.Instance.GetAirFilter().IsBroken() && !TaskManager.Instance.GetGeneratorTask().IsBroken())
+            {
+                hud.SetTaskText("[ X ] Generator Repaired\n[ X ] AirFilter Cleaned");
+            }
+        }
 
         StartCoroutine("UpdateHUD");
     }

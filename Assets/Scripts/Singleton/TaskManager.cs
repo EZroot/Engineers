@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class TaskManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class TaskManager : MonoBehaviour
 
     public GameObject[] taskObjects;
     private ITask[] tasks;
+    private PhotonView[] tasksPhotonViews;
 
     private void Awake()
     {
@@ -25,9 +27,12 @@ public class TaskManager : MonoBehaviour
     private void Start()
     {
         tasks = new ITask[taskObjects.Length];
+        tasksPhotonViews = new PhotonView[taskObjects.Length];
+
         for (int i =0; i < taskObjects.Length;i++)
         {
             tasks[i] = taskObjects[i].GetComponent<ITask>();
+            tasksPhotonViews[i] = taskObjects[i].GetComponent<PhotonView>();
         }
 
         StartCoroutine(UpdateTasks(1f));
@@ -57,8 +62,18 @@ public class TaskManager : MonoBehaviour
         return tasks[0];
     }
 
+    public PhotonView GetGeneratorPhotonView()
+    {
+        return tasksPhotonViews[0];
+    }
+
     public ITask GetAirFilter()
     {
         return tasks[1];
+    }
+
+    public PhotonView GetAirFilterPhotonView()
+    {
+        return tasksPhotonViews[1];
     }
 }

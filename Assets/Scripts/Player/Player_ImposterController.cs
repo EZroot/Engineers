@@ -22,7 +22,16 @@ public class Player_ImposterController : MonoBehaviourPun
     {
         if (config.isImposter)
         {
-            if (Input.GetMouseButtonDown(0))
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                TaskManager.Instance.GetGeneratorPhotonView().RPC("Sabotage", RpcTarget.AllBufferedViaServer);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                TaskManager.Instance.GetAirFilterPhotonView().RPC("Sabotage", RpcTarget.AllBufferedViaServer);
+            }
+            /*if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -38,7 +47,7 @@ public class Player_ImposterController : MonoBehaviourPun
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 }

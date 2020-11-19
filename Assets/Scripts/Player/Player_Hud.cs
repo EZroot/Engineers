@@ -13,9 +13,9 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI temperatureHudText;
     public TextMeshProUGUI identifyHudText;
     public TextMeshProUGUI progressBar;
+    public TextMeshProUGUI taskHudText;
 
-    public RawImage minimapHud;
-    public Camera minimapCam;
+    public GameObject minimapImg;
 
     public void SetNameText(string text)
     {
@@ -52,9 +52,18 @@ public class Player_Hud : MonoBehaviour
         progressBar.text = text;
     }
 
-    public void MinimapToggle()
+    public void SetTaskText(string text)
     {
-        minimapCam.enabled = !minimapCam.enabled;
-        minimapHud.enabled = !minimapHud.enabled;
+        taskHudText.text = text;
+    }
+
+    public void MinimapOn()
+    {
+        minimapImg.SetActive(true);
+    }
+
+    public void MinimapOff()
+    {
+        minimapImg.SetActive(false);
     }
 }
