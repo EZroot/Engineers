@@ -13,14 +13,14 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
     public bool cleanFilter = false;
     private bool isPowered = false;
 
-    public Outline outline;
+    //public Outline outline;
 
     AudioSource windAudioSource;
 
     private void Start()
     {
         //outline = GetComponent<Outline>();
-        outline.enabled = false;
+       // outline.enabled = false;
         windAudioSource = GetComponent<AudioSource>();
     }
 
@@ -30,8 +30,8 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
         if (isSabotaged)
         {
             //show outline
-            if (!outline.enabled)
-                outline.enabled = true;
+           // if (!outline.enabled)
+            //    outline.enabled = true;
             if (windAudioSource.isPlaying)
                 windAudioSource.Stop();
             //maintains dirty filter so it cant be fixed
@@ -49,13 +49,13 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
 
         if (cleanFilter && isPowered)
         {
-            outline.enabled = false;
+          //  outline.enabled = false;
             if (!windAudioSource.isPlaying)
                 windAudioSource.Play();
         }
         else
         {
-            outline.enabled = true;
+          //  outline.enabled = true;
             if (windAudioSource.isPlaying)
                 windAudioSource.Stop();
         }
@@ -96,12 +96,12 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
 
     public void OutlineTaskOn()
     {
-        outline.enabled = true;
+       // outline.enabled = true;
     }
 
     public void OutlineTaskOff()
     {
-        outline.enabled = false;
+      //  outline.enabled = false;
     }
 
     [PunRPC]

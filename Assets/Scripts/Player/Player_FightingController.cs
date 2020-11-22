@@ -186,12 +186,15 @@ public class Player_FightingController : MonoBehaviour
             switch (selectedWeapon)
             {
                 case Weapon.Fists:
+                    hitDistance = 4f;
                     StartCoroutine(PunchCooldownTimer(controllerAnimation));
                     break;
                 case Weapon.Knife:
+                    hitDistance = 4f;
                     StartCoroutine(StabCooldownTimer(controllerAnimation));
                     break;
                 case Weapon.Pistol:
+                    hitDistance = 22f;
                     StartCoroutine(ShootCooldownTimer(controllerAnimation));
                     break;
             }

@@ -15,13 +15,13 @@ public class Task_WaterTank : MonoBehaviourPun, IPowered, ITask
 
     private GameObject valveWheel;
 
-    public Outline outline;
+   // public Outline outline;
 
     AudioSource waterAudioSource;
 
     private void Start()
     {
-        outline.enabled = false;
+        //outline.enabled = false;
         valveWheel = transform.GetChild(0).gameObject;
         waterAudioSource = GetComponent<AudioSource>();
     }
@@ -32,8 +32,8 @@ public class Task_WaterTank : MonoBehaviourPun, IPowered, ITask
         if (isSabotaged)
         {
             //show outline
-            if (!outline.enabled)
-                outline.enabled = true;
+            //if (!outline.enabled)
+            //    outline.enabled = true;
 
             if (waterAudioSource.isPlaying)
                 waterAudioSource.Stop();
@@ -53,13 +53,13 @@ public class Task_WaterTank : MonoBehaviourPun, IPowered, ITask
 
         if (clearWater && isPowered)
         {
-            outline.enabled = false;
+            //outline.enabled = false;
             if (!waterAudioSource.isPlaying)
                 waterAudioSource.Play();
         }
         else
         {
-            outline.enabled = true;
+            //outline.enabled = true;
             if (waterAudioSource.isPlaying)
                 waterAudioSource.Stop();
         }
@@ -106,12 +106,12 @@ public class Task_WaterTank : MonoBehaviourPun, IPowered, ITask
 
     public void OutlineTaskOn()
     {
-        outline.enabled = true;
+       // outline.enabled = true;
     }
 
     public void OutlineTaskOff()
     {
-        outline.enabled = false;
+       // outline.enabled = false;
     }
 
     [PunRPC]

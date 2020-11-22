@@ -16,7 +16,7 @@ public class Task_Generator : MonoBehaviourPun, ITask
     public Task_PluginSlot pluginSlot;
     public Task_Button button;
 
-    public Outline outline;
+    //public Outline outline;
 
     public bool isSabotaged = false;
     private float sabotageTimer = 60f;
@@ -31,7 +31,7 @@ public class Task_Generator : MonoBehaviourPun, ITask
     private void Start()
     {
         //outline = GetComponent<Outline>();
-        outline.enabled = false;
+        //outline.enabled = false;
 
         //power other task components
         tasksToBePowered = new IPowered[objectsToBePowered.Length];
@@ -49,8 +49,8 @@ public class Task_Generator : MonoBehaviourPun, ITask
         if(isSabotaged)
         {
             //show outline
-            if (!outline.enabled)
-                outline.enabled = true;
+            //if (!outline.enabled)
+            //    outline.enabled = true;
 
             //turn off lights
             foreach (Light l in lights)
@@ -194,10 +194,10 @@ public class Task_Generator : MonoBehaviourPun, ITask
 
     public void OutlineTaskOn()
     {
-        outline.enabled = true;
+        //outline.enabled = true;
     }
     public void OutlineTaskOff()
     {
-        outline.enabled = false;
+        //outline.enabled = false;
     }
 }
