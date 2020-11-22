@@ -24,9 +24,12 @@ public class Player_AnimationController : MonoBehaviour
     private Vector3 currentMovementVelocity;
     private Vector3 currentMomentum;
 
+    private Player_FightingController fightController;
+
     private void Start()
     {
         controller = GetComponent<AdvancedWalkerController>();
+        fightController = GetComponent<Player_FightingController>();
         config = GetComponent<Player_Config>();
     }
 
@@ -52,7 +55,15 @@ public class Player_AnimationController : MonoBehaviour
         //Smooth hand blending
         if (!config.isImposter)
         {
-            config.humanHandsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+            switch (fightController.selectedWeapon)
+            {
+                case Player_FightingController.Weapon.Fists:
+                    config.humanHandsAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+                    break;
+                case Player_FightingController.Weapon.Knife:
+                    config.humanStabAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+                    break;
+            }
         }
         else
         {
@@ -112,5 +123,22 @@ public class Player_AnimationController : MonoBehaviour
             config.monsterHandsAnimator.ResetTrigger("Punch");
         else
             config.humanHandsAnimator.ResetTrigger("Punch");
+    }
+
+    public void TriggerStab()
+    {
+        if (config.isImposter)
+            config.monsterHandsAnimator.SetTrigger("Punch");
+        else
+            config.humanStabAnimator.SetTrigger("Stab");
+
+    }
+
+    public void ResetTriggerStab()
+    {
+        if (config.isImposter)
+            config.monsterHandsAnimator.ResetTrigger("Punch");
+        else
+            config.humanStabAnimator.ResetTrigger("Stab");
     }
 }

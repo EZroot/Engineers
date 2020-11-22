@@ -20,7 +20,6 @@ public class Player_Controller : MonoBehaviourPun
     private AdvancedWalkerController controllerWalker;
     private Player_AnimationController controllerAnimation;
     private Player_RagdollController controllerRagdoll;
-    private Player_FightingController controllerFighting;
     private Player_Config config;
     private Player_Hud hud;
 
@@ -39,7 +38,6 @@ public class Player_Controller : MonoBehaviourPun
         controllerWalker = GetComponent<AdvancedWalkerController>();
         controllerAnimation = GetComponent<Player_AnimationController>();
         controllerRagdoll = GetComponent<Player_RagdollController>();
-        controllerFighting = GetComponent<Player_FightingController>();
         config = GetComponent<Player_Config>();
         hud = GetComponent<Player_Hud>();
 
@@ -61,8 +59,6 @@ public class Player_Controller : MonoBehaviourPun
     {
         FlashLightControls();
         RunningControls(config);
-        //Melee/Gun play
-        controllerFighting.FightingControls(config, controllerAnimation, this);
         
         HighlightGrabbedObject(4f, grabLayer);
         MinimapControls();

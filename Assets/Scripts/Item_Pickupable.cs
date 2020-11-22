@@ -10,7 +10,8 @@ public class Item_Pickupable : MonoBehaviourPun, IItem
     public enum ItemType
     {
         Battery,
-        Keycard
+        Keycard,
+        Knife
     }
 
     public string itemName = "Default";

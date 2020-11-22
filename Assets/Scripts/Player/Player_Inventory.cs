@@ -15,11 +15,13 @@ public class Player_Inventory : MonoBehaviourPun
     //item count
     //item name
     int batteryCount = 0;
+    Player_FightingController fightingController;
 
     private void Start()
     {
         itemList = new List<IItem>();
         hud = GetComponent<Player_Hud>();
+        fightingController = GetComponent<Player_FightingController>();
     }
 
     //If theres enough space in our inventory
@@ -28,10 +30,17 @@ public class Player_Inventory : MonoBehaviourPun
     {
         itemList.Add(item);
         Item_Pickupable.ItemType itemType = item.GetItemType();
-        if (itemType == Item_Pickupable.ItemType.Battery)
+        switch(itemType)
         {
-            PhotonView pv = item.GetPhotonView();
-            pv.RPC("OnPickup", RpcTarget.AllBufferedViaServer);
+            case Item_Pickupable.ItemType.Battery:
+                PhotonView pv = item.GetPhotonView();
+                pv.RPC("OnPickup", RpcTarget.AllBufferedViaServer);
+                break;
+            case Item_Pickupable.ItemType.Knife:
+                PhotonView s = item.GetPhotonView();
+                s.RPC("OnPickup", RpcTarget.AllBufferedViaServer);
+                fightingController.SelectWeaponModel(Player_FightingController.Weapon.Knife);
+                break;
         }
     }
 
@@ -40,7 +49,6 @@ public class Player_Inventory : MonoBehaviourPun
     public void Drop()
     {
         //select item to drop
-
         IItem battery = GetItem(Item_Pickupable.ItemType.Battery);
         if (battery == null) { 
             return;

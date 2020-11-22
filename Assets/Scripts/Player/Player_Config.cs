@@ -9,6 +9,8 @@ public class Player_Config : MonoBehaviourPun
     public GameObject[] monsterGraphics;
     public GameObject[] humanGraphics;
 
+    public GameObject humanFPSFists;
+    public GameObject humanFPSKnife;
 
     public AudioClip cleaningClip;
     public AudioClip valveSpinClip;
@@ -19,7 +21,7 @@ public class Player_Config : MonoBehaviourPun
     public Animator monsterAnimator;
     public Animator humanHandsAnimator;
     public Animator monsterHandsAnimator;
-
+    public Animator humanStabAnimator;
     //Role
     public bool isImposter;
     public bool isEngineer;

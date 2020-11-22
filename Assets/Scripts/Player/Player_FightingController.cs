@@ -30,13 +30,28 @@ public class Player_FightingController : MonoBehaviour
     private bool punchCooldownOn = false;
 
     private Player_Config config;
+    private Player_AnimationController controllerAnimation;
 
     private void Start()
     {
         config = GetComponent<Player_Config>();
+        controllerAnimation = GetComponent<Player_AnimationController>();
+
+        //Weapon selection
+        switch (selectedWeapon)
+        {
+            case Weapon.Fists:
+                config.humanFPSFists.SetActive(true);
+                config.humanFPSKnife.SetActive(false);
+                break;
+            case Weapon.Knife:
+                config.humanFPSFists.SetActive(false);
+                config.humanFPSKnife.SetActive(true);
+                break;
+        }
     }
 
-    IEnumerator PunchCooldownTimer(Player_AnimationController controllerAnimation, Player_Controller controller)
+    IEnumerator PunchCooldownTimer(Player_AnimationController controllerAnimation)
     {
         isFighting = true;
         controllerAnimation.TriggerPunch();
@@ -46,6 +61,19 @@ public class Player_FightingController : MonoBehaviour
         punchCooldownOn = false;
         //controller.StopMoving = false;
         controllerAnimation.ResetTriggerPunch();
+        isFighting = false;
+    }
+
+    IEnumerator StabCooldownTimer(Player_AnimationController controllerAnimation)
+    {
+        isFighting = true;
+        controllerAnimation.TriggerStab();
+        //controller.StopMoving = true;
+        punchCooldownOn = true;
+        yield return new WaitForSeconds(punchTimer);
+        punchCooldownOn = false;
+        //controller.StopMoving = false;
+        controllerAnimation.ResetTriggerStab();
         isFighting = false;
     }
 
@@ -80,7 +108,29 @@ public class Player_FightingController : MonoBehaviour
         }
     }
 
-    public void FightingControls(Player_Config config, Player_AnimationController controllerAnimation, Player_Controller controller)
+    private void Update()
+    {
+        FightingControls(config, controllerAnimation);
+    }
+
+    public void SelectWeaponModel(Weapon weaponType)
+    {
+        //Weapon selection
+        switch (weaponType)
+        {
+            case Weapon.Fists:
+                config.humanFPSFists.SetActive(true);
+                config.humanFPSKnife.SetActive(false);
+                break;
+            case Weapon.Knife:
+                config.humanFPSFists.SetActive(false);
+                config.humanFPSKnife.SetActive(true);
+                break;
+        }
+        selectedWeapon = weaponType;
+    }
+
+    public void FightingControls(Player_Config config, Player_AnimationController controllerAnimation)
     {
         if (!config.canAttack)
             return;
@@ -98,9 +148,10 @@ public class Player_FightingController : MonoBehaviour
             switch (selectedWeapon)
             {
                 case Weapon.Fists:
-                    StartCoroutine(PunchCooldownTimer(controllerAnimation, controller));
+                    StartCoroutine(PunchCooldownTimer(controllerAnimation));
                     break;
                 case Weapon.Knife:
+                    StartCoroutine(StabCooldownTimer(controllerAnimation));
                     break;
             }
 
