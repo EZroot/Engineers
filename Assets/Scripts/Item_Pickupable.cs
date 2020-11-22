@@ -11,7 +11,8 @@ public class Item_Pickupable : MonoBehaviourPun, IItem
     {
         Battery,
         Keycard,
-        Knife
+        Knife,
+        Pistol
     }
 
     public string itemName = "Default";

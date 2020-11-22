@@ -41,6 +41,11 @@ public class Player_Inventory : MonoBehaviourPun
                 s.RPC("OnPickup", RpcTarget.AllBufferedViaServer);
                 fightingController.SelectWeaponModel(Player_FightingController.Weapon.Knife);
                 break;
+            case Item_Pickupable.ItemType.Pistol:
+                PhotonView r = item.GetPhotonView();
+                r.RPC("OnPickup", RpcTarget.AllBufferedViaServer);
+                fightingController.SelectWeaponModel(Player_FightingController.Weapon.Pistol);
+                break;
         }
     }
 

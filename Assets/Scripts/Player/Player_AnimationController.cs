@@ -63,6 +63,9 @@ public class Player_AnimationController : MonoBehaviour
                 case Player_FightingController.Weapon.Knife:
                     config.humanStabAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
                     break;
+                case Player_FightingController.Weapon.Pistol:
+                    config.humanPistolAnimator.SetFloat("TotalMovementSpeed", currentMovementVelocity.magnitude);
+                    break;
             }
         }
         else
@@ -140,5 +143,22 @@ public class Player_AnimationController : MonoBehaviour
             config.monsterHandsAnimator.ResetTrigger("Punch");
         else
             config.humanStabAnimator.ResetTrigger("Stab");
+    }
+
+    public void TriggerShoot()
+    {
+        if (config.isImposter)
+            config.monsterHandsAnimator.SetTrigger("Punch");
+        else
+            config.humanPistolAnimator.SetTrigger("Shoot");
+
+    }
+
+    public void ResetTriggerShoot()
+    {
+        if (config.isImposter)
+            config.monsterHandsAnimator.ResetTrigger("Punch");
+        else
+            config.humanPistolAnimator.ResetTrigger("Shoot");
     }
 }

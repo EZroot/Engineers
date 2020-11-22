@@ -11,9 +11,15 @@ public class Player_Config : MonoBehaviourPun
 
     public GameObject humanFPSFists;
     public GameObject humanFPSKnife;
+    public GameObject humanFPSPistol;
 
     public AudioClip cleaningClip;
     public AudioClip valveSpinClip;
+    public AudioClip punchClip;
+    public AudioClip punchHitClip;
+    public AudioClip shootClip;
+    public AudioClip reloadClip;
+    public AudioClip knifeClip;
 
     public AudioSource audioSource;
     
@@ -22,6 +28,7 @@ public class Player_Config : MonoBehaviourPun
     public Animator humanHandsAnimator;
     public Animator monsterHandsAnimator;
     public Animator humanStabAnimator;
+    public Animator humanPistolAnimator;
     //Role
     public bool isImposter;
     public bool isEngineer;

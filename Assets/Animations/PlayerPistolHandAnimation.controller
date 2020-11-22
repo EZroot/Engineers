@@ -79,7 +79,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerKnifeHandAnimator
+  m_Name: PlayerPistolHandAnimation
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: TotalMovementSpeed
@@ -87,13 +87,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: Stab
+    m_Controller: {fileID: 9100000}
+  - m_Name: Shoot
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -116,7 +116,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Stab
+    m_ConditionEvent: Shoot
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5887302014045410665}
@@ -141,7 +141,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 25f31e61cb6c6e0448a2f45ea82ed12b, type: 3}
+    m_Motion: {fileID: 7400000, guid: 697af65a581597544a714a6aa85ec6f1, type: 3}
     m_Threshold: -6
     m_Position: {x: 0, y: 0}
     m_TimeScale: -1
@@ -149,7 +149,7 @@ BlendTree:
     m_DirectBlendParameter: TotalMovementSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 09b41ee07342ee24f9183fe5e1b76170, type: 3}
+    m_Motion: {fileID: 7400000, guid: a71d25f4d05e2174db6de07257c22542, type: 3}
     m_Threshold: -3
     m_Position: {x: 0, y: 0}
     m_TimeScale: -1
@@ -157,7 +157,7 @@ BlendTree:
     m_DirectBlendParameter: TotalMovementSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: fb4971eebab2019419047e8ffbd71d39, type: 3}
+    m_Motion: {fileID: 7400000, guid: 16f91534a18974a4a8c5be4a5408062a, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -165,7 +165,7 @@ BlendTree:
     m_DirectBlendParameter: TotalMovementSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 09b41ee07342ee24f9183fe5e1b76170, type: 3}
+    m_Motion: {fileID: 7400000, guid: a71d25f4d05e2174db6de07257c22542, type: 3}
     m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -173,7 +173,7 @@ BlendTree:
     m_DirectBlendParameter: TotalMovementSpeed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 25f31e61cb6c6e0448a2f45ea82ed12b, type: 3}
+    m_Motion: {fileID: 7400000, guid: 697af65a581597544a714a6aa85ec6f1, type: 3}
     m_Threshold: 6
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -219,7 +219,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stabbing
+  m_Name: Shoot
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -233,7 +233,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 89a6271283317764197f30032542b8fc, type: 3}
+  m_Motion: {fileID: 7400000, guid: 0552a61fdc08c5f4b979534dc4cbf178, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

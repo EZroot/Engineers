@@ -37,44 +37,73 @@ public class Player_FightingController : MonoBehaviour
         config = GetComponent<Player_Config>();
         controllerAnimation = GetComponent<Player_AnimationController>();
 
-        //Weapon selection
-        switch (selectedWeapon)
-        {
-            case Weapon.Fists:
-                config.humanFPSFists.SetActive(true);
-                config.humanFPSKnife.SetActive(false);
-                break;
-            case Weapon.Knife:
-                config.humanFPSFists.SetActive(false);
-                config.humanFPSKnife.SetActive(true);
-                break;
-        }
+        SelectWeaponModel(selectedWeapon);
     }
+
+    bool playedClip = false;
 
     IEnumerator PunchCooldownTimer(Player_AnimationController controllerAnimation)
     {
         isFighting = true;
         controllerAnimation.TriggerPunch();
+        config.audioSource.clip = config.punchClip;
+        if (!config.audioSource.isPlaying && !playedClip)
+        {
+            config.audioSource.Play();
+            playedClip = true;
+        }
         //controller.StopMoving = true;
         punchCooldownOn = true;
         yield return new WaitForSeconds(punchTimer);
+            config.audioSource.Stop();
         punchCooldownOn = false;
         //controller.StopMoving = false;
         controllerAnimation.ResetTriggerPunch();
         isFighting = false;
+        playedClip = false;
     }
 
     IEnumerator StabCooldownTimer(Player_AnimationController controllerAnimation)
     {
         isFighting = true;
         controllerAnimation.TriggerStab();
+        config.audioSource.clip = config.knifeClip;
+        if (!config.audioSource.isPlaying && !playedClip)
+        {
+            config.audioSource.Play();
+            playedClip = true;
+        }
         //controller.StopMoving = true;
         punchCooldownOn = true;
         yield return new WaitForSeconds(punchTimer);
+            config.audioSource.Stop();
         punchCooldownOn = false;
         //controller.StopMoving = false;
         controllerAnimation.ResetTriggerStab();
         isFighting = false;
+        playedClip = false;
+
+    }
+
+    IEnumerator ShootCooldownTimer(Player_AnimationController controllerAnimation)
+    {
+        isFighting = true;
+        controllerAnimation.TriggerShoot();
+        config.audioSource.clip = config.shootClip;
+        if (!config.audioSource.isPlaying && !playedClip)
+        {
+            config.audioSource.Play();
+            playedClip = true;
+        }
+        //controller.StopMoving = true;
+        punchCooldownOn = true;
+        yield return new WaitForSeconds(punchTimer);
+            config.audioSource.Stop();
+        punchCooldownOn = false;
+        //controller.StopMoving = false;
+        controllerAnimation.ResetTriggerShoot();
+        isFighting = false;
+        playedClip=false;
     }
 
     /*
@@ -121,10 +150,19 @@ public class Player_FightingController : MonoBehaviour
             case Weapon.Fists:
                 config.humanFPSFists.SetActive(true);
                 config.humanFPSKnife.SetActive(false);
+                config.humanFPSPistol.SetActive(false);
+
                 break;
             case Weapon.Knife:
                 config.humanFPSFists.SetActive(false);
                 config.humanFPSKnife.SetActive(true);
+                config.humanFPSPistol.SetActive(false);
+
+                break;
+            case Weapon.Pistol:
+                config.humanFPSFists.SetActive(false);
+                config.humanFPSKnife.SetActive(false);
+                config.humanFPSPistol.SetActive(true);
                 break;
         }
         selectedWeapon = weaponType;
@@ -152,6 +190,9 @@ public class Player_FightingController : MonoBehaviour
                     break;
                 case Weapon.Knife:
                     StartCoroutine(StabCooldownTimer(controllerAnimation));
+                    break;
+                case Weapon.Pistol:
+                    StartCoroutine(ShootCooldownTimer(controllerAnimation));
                     break;
             }
 
