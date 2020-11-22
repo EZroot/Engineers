@@ -16,7 +16,7 @@ public class Task_Generator : MonoBehaviourPun, ITask
     public Task_PluginSlot pluginSlot;
     public Task_Button button;
 
-    private Outline outline;
+    public Outline outline;
 
     public bool isSabotaged = false;
     private float sabotageTimer = 60f;
@@ -24,9 +24,13 @@ public class Task_Generator : MonoBehaviourPun, ITask
 
     private AudioSource audioSource;
 
+    public Renderer[] decalLightRenderers;
+    public Material onDecalLightMat;
+    public Material offDecalLightMat;
+
     private void Start()
     {
-        outline = GetComponent<Outline>();
+        //outline = GetComponent<Outline>();
         outline.enabled = false;
 
         //power other task components
@@ -60,6 +64,12 @@ public class Task_Generator : MonoBehaviourPun, ITask
                 o.SetActive(true);
             }
 
+            foreach(Renderer r in decalLightRenderers)
+            {
+                if(r!=null)
+                    r.material = offDecalLightMat;
+            }
+
             foreach(IPowered poweredItem in tasksToBePowered)
             {
                 poweredItem.SetPower(false);
@@ -87,12 +97,22 @@ public class Task_Generator : MonoBehaviourPun, ITask
                 {
                     l.enabled = true;
                 }
+                foreach (Renderer r in decalLightRenderers)
+                {
+                    if (r != null)
+                        r.material = onDecalLightMat;
+                }
             }
             else
             {
                 foreach (Light l in lights)
                 {
                     l.enabled = false;
+                    foreach (Renderer r in decalLightRenderers)
+                    {
+                        if (r != null)
+                            r.material = offDecalLightMat;
+                    }
                 }
             }
 
@@ -115,6 +135,11 @@ public class Task_Generator : MonoBehaviourPun, ITask
             foreach (Light l in lights)
             {
                 l.enabled = false;
+            }
+            foreach (Renderer r in decalLightRenderers)
+            {
+                if (r != null)
+                    r.material = offDecalLightMat;
             }
             //turn on emergency lights
             foreach (GameObject o in emergencyLights)

@@ -116,10 +116,16 @@ public class Player_FightingController : MonoBehaviour
                     if (hit.transform.tag == playerTag)
                     {
                         //kill the player
+
+                        
                         PhotonView pvOther = hit.transform.gameObject.GetComponent<PhotonView>();
                         if (pvOther == null)
                             Debug.LogError("OTHER PLAYER DOESNT HAVE PHOTONVIEW?!");
                         pvOther.RPC("RagdollToggle", RpcTarget.AllBufferedViaServer, pvOther.ViewID, true);
+                        
+
+                        //new way to kill player
+                        //hit.transform.gameObject.GetComponent<Player_Health>().KillImmediatelyPUN(hit.point);
                         //apply a force
                     }
                 }

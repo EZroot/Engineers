@@ -30,10 +30,8 @@ public class Rigidbody_DistanceLimit : MonoBehaviour
         {
             Vector3 vecBetweenTwoPoints = otherObject.transform.position - transform.position;
             float mag = vecBetweenTwoPoints.magnitude;
-            Debug.Log("mag: " + mag);
             if (mag > maxDistanceBetweenObjects)
             {
-                Debug.Log("STOP DRAGGING!!!!!!!!!");
                 rbDrag.StopDragging();
                 //checkDist = false;
             }

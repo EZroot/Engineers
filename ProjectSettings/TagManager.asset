@@ -15,6 +15,8 @@ TagManager:
   - Latern
   - AirFilter
   - Generator
+  - PickupableItem
+  - WaterTank
   layers:
   - Default
   - TransparentFX
@@ -28,7 +30,7 @@ TagManager:
   - PlayerRagdoll
   - Interactive
   - Minimap
-  - 
+  - Items
   - 
   - 
   - 

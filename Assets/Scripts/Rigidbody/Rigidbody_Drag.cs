@@ -36,7 +36,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
         if (audioSource == null || !playThumpSound)
             return;
         //depending on velocity mag we should player louder sounds
-        //if(thisRb.velocity.magnitude>1f)
+        if(thisRb.velocity.magnitude>1f)
             audioSource.Play();
     }
 

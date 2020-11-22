@@ -65,7 +65,6 @@ public class Player_Controller : MonoBehaviourPun
         controllerFighting.FightingControls(config, controllerAnimation, this);
         
         HighlightGrabbedObject(4f, grabLayer);
-        HighlightInteractables();
         MinimapControls();
 
         //prevents monster model from showing to myself
@@ -106,67 +105,12 @@ public class Player_Controller : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Show the clients name that youre looking at
-    /// </summary>
-    private void HighlightInteractables()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 5f))
-        {
-            if (hit.transform.tag == "Player")
-            {
-                hud.SetIdentityText(hit.transform.gameObject.GetComponent<PhotonView>().Owner.NickName);
-            }
-            if (hit.transform.tag == "Door")
-            {
-                hud.SetIdentityText("Door ");
-            }
-            if (hit.transform.tag == "Button")
-            {
-                Task_DoorNumpad numpad = hit.transform.gameObject.GetComponent<Task_DoorNumpad>();
-                if (numpad != null)
-                {
-                    if(numpad.unlocked)
-                        hud.SetIdentityText("Door Unlocked");
-                    else
-                        hud.SetIdentityText("Door Locked");
-                }
-                else
-                {
-                    hud.SetIdentityText("Button");
-                }
-            }
-
-            if (hit.transform.tag == "Plugin")
-            {
-                hud.SetIdentityText("Plugin");
-            }
-
-            if (hit.transform.tag == "Lantern")
-            {
-                hud.SetIdentityText("Lantern");
-            }
-
-            if (hit.transform.tag=="Untagged")
-            {
-                hud.SetIdentityText("");
-            }
-        }
-        else
-        {
-            hud.SetIdentityText("");
-        }
-    }
-
-    /// <summary>
     /// Turning off and on the flashlight, synced in player sync
     /// </summary>
     private void FlashLightControls()
     {
         if(Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("Enabling flashlight");
             flashLight.enabled = !flashLight.enabled;
         }
     }

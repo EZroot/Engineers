@@ -9,6 +9,12 @@ public class Player_Config : MonoBehaviourPun
     public GameObject[] monsterGraphics;
     public GameObject[] humanGraphics;
 
+
+    public AudioClip cleaningClip;
+    public AudioClip valveSpinClip;
+
+    public AudioSource audioSource;
+    
     public Animator humanAnimator;
     public Animator monsterAnimator;
     public Animator humanHandsAnimator;
@@ -29,7 +35,7 @@ public class Player_Config : MonoBehaviourPun
     public int runSpeed = 5;
 
     //Stamina
-    public int staminaLevel = 60;
+    public int staminaLevel = 100;
     public int staminaLevelForRecover = 15;
 
     [HideInInspector]

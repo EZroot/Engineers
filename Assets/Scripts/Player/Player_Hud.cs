@@ -14,8 +14,12 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI identifyHudText;
     public TextMeshProUGUI progressBar;
     public TextMeshProUGUI taskHudText;
+    public TextMeshProUGUI batteryHudText;
 
     public GameObject minimapImg;
+
+    public Image progressBarBackground;
+    public Image progressBarFill;
 
     public void SetNameText(string text)
     {
@@ -57,6 +61,11 @@ public class Player_Hud : MonoBehaviour
         taskHudText.text = text;
     }
 
+    public void SetBatteryHudText(string text)
+    {
+        batteryHudText.text = text;
+    }
+
     public void MinimapOn()
     {
         minimapImg.SetActive(true);
@@ -65,5 +74,22 @@ public class Player_Hud : MonoBehaviour
     public void MinimapOff()
     {
         minimapImg.SetActive(false);
+    }
+
+    public void SetProgressBarOff()
+    {
+        progressBarBackground.enabled = false;
+        progressBarFill.enabled = false;
+    }
+
+    public void SetProgressBarOn()
+    {
+        progressBarBackground.enabled = true;
+        progressBarFill.enabled = true;
+    }
+
+    public void SetProgressBarFillAmount(float amount)
+    {
+        progressBarFill.fillAmount = amount;
     }
 }

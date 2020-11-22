@@ -10,15 +10,18 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
     private float sabotageTimer = 60f;
     private float sabotageCounter = 0f;
 
-    public bool dirtyFilter = true;
+    public bool cleanFilter = false;
     private bool isPowered = false;
 
-    private Outline outline;
+    public Outline outline;
+
+    AudioSource windAudioSource;
 
     private void Start()
     {
-        outline = GetComponent<Outline>();
+        //outline = GetComponent<Outline>();
         outline.enabled = false;
+        windAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -29,9 +32,10 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
             //show outline
             if (!outline.enabled)
                 outline.enabled = true;
-
+            if (windAudioSource.isPlaying)
+                windAudioSource.Stop();
             //maintains dirty filter so it cant be fixed
-            dirtyFilter = true;
+            cleanFilter = false;
 
             sabotageCounter += 5f * Time.deltaTime;
             if (sabotageCounter >= sabotageTimer)
@@ -43,16 +47,24 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
             return;
         }
 
-        if (!dirtyFilter && isPowered)
+        if (cleanFilter && isPowered)
+        {
             outline.enabled = false;
+            if (!windAudioSource.isPlaying)
+                windAudioSource.Play();
+        }
         else
+        {
             outline.enabled = true;
+            if (windAudioSource.isPlaying)
+                windAudioSource.Stop();
+        }
     }
 
     public string GetInfo()
     {
         string returnText = "AIR_FILTRATION_STATUS\n";
-        if (!dirtyFilter)
+        if (cleanFilter)
             returnText += "Filter Status: Clean\n";
         else
             returnText += "Filter Status: DIRTY\n";
@@ -75,9 +87,11 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
 
     public bool IsBroken()
     {
-        if (!dirtyFilter || isPowered)
-            return false;
-        return true;
+        if (!isPowered)
+            return true;
+        if (isPowered && !cleanFilter)
+            return true;
+        return false;
     }
 
     public void OutlineTaskOn()
@@ -99,7 +113,7 @@ public class Task_AirFiltration : MonoBehaviourPun, ITask, IPowered
     [PunRPC]
     public void CleanFilter()
     {
-        dirtyFilter = false;
+        cleanFilter = true;
     }
 
     public void SetPower(bool powered)

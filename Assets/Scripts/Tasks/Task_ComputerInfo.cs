@@ -22,8 +22,6 @@ public class Task_ComputerInfo : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         infoTextMesh.text = taskInfo.GetInfo();
-        Debug.Log("Updaitng console text for " + taskObject.name);
-
         StartCoroutine(UpdateText(delay)); 
     }
 }

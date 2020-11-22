@@ -14,9 +14,17 @@ public class Task_Button : MonoBehaviourPun, IInteractive
     private bool isOn = false;
     public bool IsOn { get { return isOn; } set { isOn = value; } }
 
+    public bool startTurnedOn = false;
+
     private void Start()
     {
         buttonMeshRenderer.material = buttonOff;
+
+        if (startTurnedOn)
+        {
+            buttonMeshRenderer.material = buttonOn;
+            isOn = true;
+        }
     }
 
     public void On()

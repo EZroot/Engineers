@@ -30,16 +30,7 @@ public class Player_RagdollController : MonoBehaviourPun
             col.enabled = false;
     }
 
-    //attackerPos - for direction of force
-    //force - for force
-    //hit position - for force on the point of the rigidbody
-    public void KillImmediataly(float force, Vector3 hitPoint)
-    {
-        RagdollOn();
-        rb.AddForceAtPosition((hitPoint - transform.position) * force, hitPoint, ForceMode.Impulse);
-    }
-
-    void RagdollOn()
+    public void RagdollOn()
     {
         //enable human body for player
 
@@ -55,7 +46,7 @@ public class Player_RagdollController : MonoBehaviourPun
             col.enabled = true;
     }
 
-    void RagdollOff()
+    public void RagdollOff()
     {
         //rigidbodies hold on to the force and slams the ragdoll if not kinematic while animating
         config.humanAnimator.enabled = true;
