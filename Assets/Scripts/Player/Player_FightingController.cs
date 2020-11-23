@@ -14,7 +14,7 @@ public class Player_FightingController : MonoBehaviour
     }
 
     public Weapon selectedWeapon = Weapon.Fists;
-    public float hitDistance = 4f;
+    public float hitDistance = 2f;
     public string playerTag;
     public string[] rigidbodyTags;
 
@@ -186,11 +186,11 @@ public class Player_FightingController : MonoBehaviour
             switch (selectedWeapon)
             {
                 case Weapon.Fists:
-                    hitDistance = 4f;
+                    hitDistance = 1.7f;
                     StartCoroutine(PunchCooldownTimer(controllerAnimation));
                     break;
                 case Weapon.Knife:
-                    hitDistance = 4f;
+                    hitDistance = 1.7f;
                     StartCoroutine(StabCooldownTimer(controllerAnimation));
                     break;
                 case Weapon.Pistol:
@@ -205,8 +205,8 @@ public class Player_FightingController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, hitDistance))
             {
                 //imposters only
-                if (config.isImposter)
-                {
+                //if (config.isImposter)
+                //{
                     //if we hit another player
                     if (hit.transform.tag == playerTag)
                     {
@@ -223,7 +223,7 @@ public class Player_FightingController : MonoBehaviour
                         //hit.transform.gameObject.GetComponent<Player_Health>().KillImmediatelyPUN(hit.point);
                         //apply a force
                     }
-                }
+                //}
 
                 //transfer ownership if available
                 PhotonView otherPv = hit.transform.gameObject.GetComponent<PhotonView>();

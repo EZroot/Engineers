@@ -6,7 +6,7 @@ using Photon.Pun;
 
 public class Player_InteractionController : MonoBehaviourPun
 {
-    public float interactionDistance = 4f;
+    public float interactionDistance = 2f;
     public string buttonTag = "Button";
     public string airFilterTag = "AirFilter";
     public string generatorTag = "Generator";
@@ -58,7 +58,7 @@ public class Player_InteractionController : MonoBehaviourPun
 
             Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 4f))
+            if (Physics.Raycast(ray, out hit, interactionDistance))
             {
                 //Cleaning air filter
                 if (hit.transform.tag == airFilterTag)
@@ -79,8 +79,8 @@ public class Player_InteractionController : MonoBehaviourPun
                     }
 
                     progressBarCount += 1f * Time.deltaTime;
-                    //hud update
-                    hud.SetProgressBarText("Cleaning Filter");
+                    //hud updat0
+                    hud.SetProgressBarText("Cleaning Filter ("+progressBarCompleted+"s) "+progressBarCount.ToString("F0")+"s");
                     //Turn on UI
                     if (!hud.progressBarBackground.IsActive())
                         hud.SetProgressBarOn();
@@ -128,7 +128,7 @@ public class Player_InteractionController : MonoBehaviourPun
                     progressBarCount += 1f * Time.deltaTime;
 
                     //hud update
-                    hud.SetProgressBarText("Spinning Valve");
+                    hud.SetProgressBarText("Spinning Valve ("+ progressBarCompleted+"s) "+progressBarCount.ToString("F0")+"s");
                     //Turn on UI
                     if (!hud.progressBarBackground.IsActive())
                         hud.SetProgressBarOn();

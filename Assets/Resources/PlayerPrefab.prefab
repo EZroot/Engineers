@@ -864,7 +864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedWeapon: 0
-  hitDistance: 4
+  hitDistance: 1.7
   playerTag: Player
   rigidbodyTags:
   - Prop
@@ -938,6 +938,9 @@ MonoBehaviour:
   - {fileID: 1472270080520595899}
   - {fileID: 1472270080520595898}
   - {fileID: 1620171607169138913}
+  - {fileID: 960445651453784265}
+  - {fileID: 8328347033674677520}
+  - {fileID: 8000622654737025975}
   removeObjectsFromOthers:
   - {fileID: 1472519796811981574}
   - {fileID: 8824781223987832700}
@@ -1014,7 +1017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74eeb3218d601184a9564220754ca8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionDistance: 4
+  interactionDistance: 1.7
   buttonTag: Button
   airFilterTag: AirFilter
   generatorTag: Generator
@@ -1046,11 +1049,11 @@ MonoBehaviour:
   humanFPSPistol: {fileID: 2341958742946154490}
   cleaningClip: {fileID: 8300000, guid: fc3e76fa40f470140b055fcf6c786300, type: 3}
   valveSpinClip: {fileID: 8300000, guid: eb1d45501a27e25418205730c36c5ce2, type: 3}
-  punchClip: {fileID: 8300000, guid: 543b841935a3d484d8fc8a7961f3d913, type: 3}
+  punchClip: {fileID: 8300000, guid: 2ad85b9c05cce2741a5f73a315af907a, type: 3}
   punchHitClip: {fileID: 8300000, guid: 543b841935a3d484d8fc8a7961f3d913, type: 3}
   shootClip: {fileID: 8300000, guid: 1e78f9c5805fc33478582cabbd79b91b, type: 3}
   reloadClip: {fileID: 8300000, guid: 5352c7bdf44b11141ba87d35e6e5a45a, type: 3}
-  knifeClip: {fileID: 8300000, guid: 5c907ceaf900ecf43a28e9381149276e, type: 3}
+  knifeClip: {fileID: 8300000, guid: fb1c9b1647b4b5841b9eaa713705e676, type: 3}
   audioSource: {fileID: 1848937046889313009}
   humanAnimator: {fileID: 5125784878034552696}
   monsterAnimator: {fileID: 8579120888325126148}
@@ -1255,6 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb995c33d470b642b11a46d31f88e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitDistance: 1.7
 --- !u!114 &7668670722919346242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11062,7 +11066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -19.8}
+  m_AnchoredPosition: {x: 0, y: -41.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2086454635325053055
@@ -11120,8 +11124,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

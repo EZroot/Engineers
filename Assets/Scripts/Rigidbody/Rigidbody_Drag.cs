@@ -24,6 +24,8 @@ public class Rigidbody_Drag : MonoBehaviourPun
     public bool playThumpSound = true;
     private AudioSource audioSource;
 
+    private float grabDistance = 1.7f;
+
     private void Start()
     {
         pluginTask = GetComponent<Task_Plugin>();
@@ -97,7 +99,7 @@ public class Rigidbody_Drag : MonoBehaviourPun
 
         var ray = Camera.allCameras[0].ScreenPointToRay(screenPosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 4.0f))
+        if (Physics.Raycast(ray, out hit, grabDistance))
         {
             StartDragging(hit);
         }

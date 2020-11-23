@@ -17,6 +17,7 @@ public class Player_RagdollController : MonoBehaviourPun
     private Player_Config config;
     private Player_Respawner respawner;
     private Rigidbody rb;
+    private bool isRagdoll = false;
 
     private void Start()
     {
@@ -36,7 +37,7 @@ public class Player_RagdollController : MonoBehaviourPun
 
         //stop moving
         //add a canmove bool in config??
-
+        isRagdoll = true;
         //rigidbodies hold on to the force and slams the ragdoll if not kinematic while animating
         config.humanAnimator.enabled = false;
         //if we are currently ragdoll
@@ -54,6 +55,24 @@ public class Player_RagdollController : MonoBehaviourPun
             rb.isKinematic = true;
         foreach (Collider col in ragdollColliders)
             col.enabled = false;
+        isRagdoll = false;
+    }
+
+    private void Update()
+    {
+        //Respawn
+        if(isRagdoll)
+        {
+            //5 second death delay
+            StartCoroutine(Respawn(5));
+            isRagdoll = false;
+        }
+    }
+
+    IEnumerator Respawn(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        photonView.RPC("RagdollToggle", RpcTarget.AllBufferedViaServer, photonView.ViewID, false);
     }
 
     [PunRPC]

@@ -25,7 +25,8 @@ public class Player_AnimationController : MonoBehaviour
     private Vector3 currentMomentum;
 
     private Player_FightingController fightController;
-
+    private float punchTimer = 0.1f;
+    private float punchTimerCounter = 0f;
     private void Start()
     {
         controller = GetComponent<AdvancedWalkerController>();
@@ -109,14 +110,54 @@ public class Player_AnimationController : MonoBehaviour
             config.humanAnimator.SetFloat("TurnSpeed", currentTurnSpeed);
         else
             config.monsterAnimator.SetFloat("TurnSpeed", currentTurnSpeed);
+
+        //attacking timer reset
+        //this small interval plays animation decently.. prob can be done better lol
+        if (config.isImposter)
+        {
+            if (config.monsterAnimator.GetBool("IsPunching"))
+            {
+                if (punchTimerCounter <= punchTimer)
+                {
+                    punchTimerCounter += 1 * Time.deltaTime;
+                }
+                else
+                {
+                    punchTimerCounter = 0;
+                    config.monsterAnimator.SetBool("IsPunching", false);
+                }
+            }
+        }
+        else
+        {
+            //this small interval plays animation decently.. prob can be done better lol
+            if (config.humanAnimator.GetBool("IsPunching"))
+            {
+                if (punchTimerCounter <= punchTimer)
+                {
+                    punchTimerCounter += 1 * Time.deltaTime;
+                }
+                else
+                {
+                    punchTimerCounter = 0;
+                    config.humanAnimator.SetBool("IsPunching", false);
+                }
+            }
+        }
     }
 
     public void TriggerPunch()
     {
-        if(config.isImposter)
+        if (config.isImposter)
+        {
             config.monsterHandsAnimator.SetTrigger("Punch");
+            config.monsterAnimator.SetBool("IsPunching", true);
+        }
         else
+        {
             config.humanHandsAnimator.SetTrigger("Punch");
+            config.humanAnimator.SetBool("IsPunching", true);
+        }
 
     }
 

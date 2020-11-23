@@ -60,7 +60,7 @@ public class Player_Controller : MonoBehaviourPun
         FlashLightControls();
         RunningControls(config);
         
-        HighlightGrabbedObject(4f, grabLayer);
+        HighlightGrabbedObject(1.7f, grabLayer);
         MinimapControls();
 
         //prevents monster model from showing to myself

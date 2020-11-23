@@ -9,6 +9,7 @@ public class Player_InventoryController : MonoBehaviourPun
     private Player_Inventory inventory;
     private IItem itemPickup = null;
 
+    public float hitDistance = 2f;
     //make item pool
     //when pickup batterys, disable them over pun
     //when drop, enable and teleport them in front of you
@@ -32,7 +33,7 @@ public class Player_InventoryController : MonoBehaviourPun
     {
         RaycastHit hit;
         Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 5f))
+        if (Physics.Raycast(ray, out hit, hitDistance))
         {
             //Physics objs
             HighlightInteractables(hit);
@@ -115,7 +116,7 @@ public class Player_InventoryController : MonoBehaviourPun
             hud.SetIdentityText("[LMB] Grab "+"Plugin");
         }
 
-        if (hit.transform.tag == "Lantern")
+        if (hit.transform.tag == "Latern")
         {
             hud.SetIdentityText("[LMB] Grab " + "Lantern");
         }
