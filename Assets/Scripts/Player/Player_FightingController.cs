@@ -38,12 +38,14 @@ public class Player_FightingController : MonoBehaviour
         controllerAnimation = GetComponent<Player_AnimationController>();
 
         SelectWeaponModel(selectedWeapon);
+        config.humanAnimator.SetLayerWeight(1, 0f);
     }
 
     bool playedClip = false;
 
     IEnumerator PunchCooldownTimer(Player_AnimationController controllerAnimation)
     {
+        config.humanAnimator.SetLayerWeight(1, 1f);
         isFighting = true;
         controllerAnimation.TriggerPunch();
         config.audioSource.clip = config.punchClip;
@@ -61,6 +63,8 @@ public class Player_FightingController : MonoBehaviour
         controllerAnimation.ResetTriggerPunch();
         isFighting = false;
         playedClip = false;
+        config.humanAnimator.SetLayerWeight(1, 0f);
+
     }
 
     IEnumerator StabCooldownTimer(Player_AnimationController controllerAnimation)

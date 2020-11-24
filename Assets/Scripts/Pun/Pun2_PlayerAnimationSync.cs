@@ -11,6 +11,7 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
     private float totalMovementSpeed;
     private bool isPunching;
     private Player_Config config;
+    private float upperLayerWeight;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
                 stream.SendNext(config.monsterAnimator.GetFloat("TurnSpeed"));
                 stream.SendNext(config.monsterAnimator.GetFloat("TotalMovementSpeed"));
                 stream.SendNext(config.monsterAnimator.GetBool("IsPunching"));
+                stream.SendNext(config.monsterAnimator.GetLayerWeight(1));
                 //sync punchFloat timer
                 //count float till animation is finished
                 //reset float to 0, animation can play
@@ -44,6 +46,7 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
                 stream.SendNext(config.humanAnimator.GetFloat("TurnSpeed"));
                 stream.SendNext(config.humanAnimator.GetFloat("TotalMovementSpeed"));
                 stream.SendNext(config.humanAnimator.GetBool("IsPunching"));
+                stream.SendNext(config.humanAnimator.GetLayerWeight(1));
             }
             //stream.SendNext(animator.Trigg)
             //stream.SendNext(animatorState);
@@ -57,6 +60,7 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
             turnSpeed = (float)stream.ReceiveNext();
             totalMovementSpeed = (float)stream.ReceiveNext();
             isPunching = (bool)stream.ReceiveNext();
+            upperLayerWeight = (float)stream.ReceiveNext();
         }
     }
 
@@ -79,8 +83,8 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
                     config.monsterAnimator.SetFloat("TotalMovementSpeed", Mathf.Lerp(config.monsterAnimator.GetFloat("TotalMovementSpeed"), totalMovementSpeed, 5 * Time.deltaTime));
                 else
                     config.monsterAnimator.SetFloat("TotalMovementSpeed", 0);
-                    config.monsterAnimator.SetBool("IsPunching", isPunching);
-
+                config.monsterAnimator.SetBool("IsPunching", isPunching);
+                config.monsterAnimator.SetLayerWeight(1, upperLayerWeight);
             }
             else
             {
@@ -91,8 +95,8 @@ public class Pun2_PlayerAnimationSync : MonoBehaviourPun, IPunObservable
                     config.humanAnimator.SetFloat("TotalMovementSpeed", Mathf.Lerp(config.humanAnimator.GetFloat("TotalMovementSpeed"), totalMovementSpeed, 5 * Time.deltaTime));
                 else
                     config.humanAnimator.SetFloat("TotalMovementSpeed", 0);
-                    config.humanAnimator.SetBool("IsPunching", isPunching);
-
+                config.humanAnimator.SetBool("IsPunching", isPunching);
+                config.humanAnimator.SetLayerWeight(1, upperLayerWeight);
             }
         }
     }

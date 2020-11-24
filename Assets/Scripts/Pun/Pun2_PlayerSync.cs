@@ -18,7 +18,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
 
     //Values that will be synced over network
     public Transform modelTransform;
-    public Light flashLight;
+    public GameObject flashLight;
 
     //Config to check imposter status
     private Player_Config config;
@@ -27,6 +27,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
     Vector3 latestPos;
     Quaternion latestRot;
     bool lightOn = false;
+    Quaternion lightRot;
 
     // Use this for initialization
     void Start()
@@ -71,7 +72,8 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //We own this player: send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(modelTransform.transform.rotation);
-            stream.SendNext(flashLight.enabled);
+            stream.SendNext(flashLight.activeSelf);
+            stream.SendNext(flashLight.transform.rotation);
         }
         else
         {
@@ -79,6 +81,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
             lightOn = (bool)stream.ReceiveNext();
+            lightRot = (Quaternion)stream.ReceiveNext();
         }
     }
 
@@ -91,7 +94,8 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             modelTransform.transform.rotation = Quaternion.Lerp(modelTransform.transform.rotation, latestRot, Time.deltaTime * 5);
-            flashLight.enabled = lightOn;
+            flashLight.SetActive(lightOn);
+            flashLight.transform.rotation = Quaternion.Lerp(flashLight.transform.rotation, lightRot, Time.deltaTime * 5);
         }
     }
 

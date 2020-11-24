@@ -11,7 +11,7 @@ public class Player_Controller : MonoBehaviourPun
     //to rotate body model
     public Transform cameraTransform;
     public Transform bodyTransform;
-    public Light flashLight;
+    public GameObject flashLight;
     public LayerMask grabLayer;
     
     public float throwForce = 5f;
@@ -107,7 +107,12 @@ public class Player_Controller : MonoBehaviourPun
     {
         if(Input.GetKeyDown(KeyCode.T))
         {
-            flashLight.enabled = !flashLight.enabled;
+            flashLight.SetActive(!flashLight.activeSelf);
+        }
+
+        if(flashLight.activeSelf)
+        {
+            flashLight.transform.rotation = Camera.allCameras[0].transform.rotation;
         }
     }
 

@@ -130,5 +130,20 @@ public class Player_InventoryController : MonoBehaviourPun
         {
             hud.SetIdentityText("");
         }
+
+        if(hit.transform.tag=="WaterTank")
+        {
+            hud.SetIdentityText("Water Tank\nFilters water flow tanks.\n[LMB] Rotate Valve");
+        }
+
+        if (hit.transform.tag == "Generator")
+        {
+            hud.SetIdentityText("Generator\nGenerates electricity for lights and objects.\n[Plugin] to power area.");
+        }
+
+        if (hit.transform.tag == "AirFilter")
+        {
+            hud.SetIdentityText("Air Filter\nCreates oxygen in the station.\n[LMB] Clean air filters.");
+        }
     }
 }
