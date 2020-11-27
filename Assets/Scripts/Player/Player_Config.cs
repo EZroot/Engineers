@@ -21,8 +21,9 @@ public class Player_Config : MonoBehaviourPun
     public AudioClip reloadClip;
     public AudioClip knifeClip;
 
-    public AudioSource audioSource;
-    
+    public AudioSource firstAudioSource;
+    public AudioSource secondAudioSource;
+
     public Animator humanAnimator;
     public Animator monsterAnimator;
     public Animator humanHandsAnimator;
@@ -64,13 +65,13 @@ public class Player_Config : MonoBehaviourPun
         Cursor.visible = false;
     }
 
-    public void CursorOn()
+    public void ShowCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
-    public void CursorOff()
+    public void HideCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

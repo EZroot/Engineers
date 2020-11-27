@@ -55,18 +55,8 @@ public class Player_RagdollController : MonoBehaviourPun
             rb.isKinematic = true;
         foreach (Collider col in ragdollColliders)
             col.enabled = false;
+        transform.position = CrewManager.Instance.GetSpawnerPosition() + new Vector3(3*CrewManager.Instance.GetPlayerCount(photonView.ViewID),0f,0f);
         isRagdoll = false;
-    }
-
-    private void Update()
-    {
-        //Respawn
-        if(isRagdoll)
-        {
-            //5 second death delay
-            StartCoroutine(Respawn(5));
-            isRagdoll = false;
-        }
     }
 
     IEnumerator Respawn(float delay)

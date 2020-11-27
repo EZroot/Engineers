@@ -31,6 +31,11 @@ public class Player_ImposterController : MonoBehaviourPun
             {
                 TaskManager.Instance.GetAirFilterPhotonView().RPC("Sabotage", RpcTarget.AllBufferedViaServer);
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                TaskManager.Instance.GetWaterTankPhotonView().RPC("Sabotage", RpcTarget.AllBufferedViaServer);
+            }
             /*if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);

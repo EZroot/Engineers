@@ -58,8 +58,8 @@ public class Player_Inventory : MonoBehaviourPun
         if (battery == null) { 
             return;
         }
-            battery.GetPhotonView().RPC("OnDrop", RpcTarget.AllBufferedViaServer);
-        battery.SetLocation(Vector3.up*1.6f + transform.position+transform.GetChild(0).GetChild(0).forward);
+        battery.SetLocation(Vector3.up * 1.6f + transform.position + transform.GetChild(0).GetChild(0).forward);
+        battery.GetPhotonView().RPC("OnDrop", RpcTarget.AllBufferedViaServer);
             batteryCount -= 1;
 
         RemoveItem(battery);

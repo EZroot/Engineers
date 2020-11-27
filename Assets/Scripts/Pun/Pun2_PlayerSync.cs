@@ -9,8 +9,8 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
     //List of the GameObjects that should only be active for the local player (ex. Camera, AudioListener etc.)
     public GameObject[] removeObjectsFromOthers;
     //List of the Rigidbodies that should only be active for the local player (ex. Camera, AudioListener etc.)
+    public LineRenderer[] removeLinerendererFromOthers;
     public Rigidbody[] rigidbodyFromOthersToSetKinematic;
-
     //List of GameObjects that should be removed for the user (eg. body for an fps, so we cant see clipping)
     public GameObject[] removeLocalObjects;
 
@@ -57,6 +57,10 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             for (int i = 0; i < removeObjectsFromOthers.Length; i++)
             {
                 removeObjectsFromOthers[i].SetActive(false);
+            }
+            for (int i = 0; i < removeLinerendererFromOthers.Length; i++)
+            {
+                removeLinerendererFromOthers[i].enabled = (false);
             }
             for (int i = 0; i < rigidbodyFromOthersToSetKinematic.Length; i++)
             {

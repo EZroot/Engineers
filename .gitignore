@@ -64,3 +64,7 @@ crashlytics-build.properties
 /Assets/Photon
 /Assets/TextMesh Pro
 /Assets/Level
+/Assets/Editor
+SerializedBuildInfo/StandaloneWindows_2020_11_24_03_08_45.ahbuildinfo
+SerializedBuildInfo/StandaloneWindows_2020_11_24_03_20_47.ahbuildinfo
+*.ahbuildinfo

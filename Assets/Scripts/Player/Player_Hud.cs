@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class Player_Hud : MonoBehaviour
+public class Player_Hud : MonoBehaviourPun
 {
     public TextMeshProUGUI imposterHudText;
     public TextMeshProUGUI nameHudText;
@@ -15,11 +16,27 @@ public class Player_Hud : MonoBehaviour
     public TextMeshProUGUI progressBar;
     public TextMeshProUGUI taskHudText;
     public TextMeshProUGUI batteryHudText;
+    public TextMeshProUGUI healthHudText;
+
+    //defeat/victory
+    public GameObject victoryScreen;
+    public TextMeshProUGUI victoryScreenWhoWonHudText;
+    public TextMeshProUGUI victoryScreenReadyUpHudText;
+    public GameObject defeatScreen;
+    public TextMeshProUGUI defeatScreenWhoWonHudText;
+    public TextMeshProUGUI defeatScreenReadyUpHudText;
 
     public GameObject minimapImg;
 
     public Image progressBarBackground;
     public Image progressBarFill;
+
+    Player_Config config;
+
+    private void Start()
+    {
+        config = GetComponent<Player_Config>();
+    }
 
     public void SetNameText(string text)
     {
@@ -66,6 +83,11 @@ public class Player_Hud : MonoBehaviour
         batteryHudText.text = text;
     }
 
+    public void SetHealthHudText(string text)
+    {
+        healthHudText.text = text;
+    }
+
     public void MinimapOn()
     {
         minimapImg.SetActive(true);
@@ -92,4 +114,44 @@ public class Player_Hud : MonoBehaviour
     {
         progressBarFill.fillAmount = amount;
     }
+
+    [PunRPC]
+    public void SetPlayersReadyHudText(int playersReady, int viewId)
+    {
+        if (photonView.ViewID != viewId)
+            return;
+        victoryScreenReadyUpHudText.text = "Players Ready: " + playersReady + "/" + CrewManager.Instance.playerPhotonViews.Count;
+        defeatScreenReadyUpHudText.text = "Players Ready: " + playersReady + "/" + CrewManager.Instance.playerPhotonViews.Count;
+    }
+
+    [PunRPC]
+    public void OpenVictoryScreen(int viewId, bool open)
+    {
+        if (photonView.ViewID != viewId)
+            return;
+        if (victoryScreen.activeSelf)
+            return;
+        victoryScreen.SetActive(open);
+        config.ShowCursor();
+    }
+
+    [PunRPC]
+    public void OpenDefeatScreen(int viewId, bool open)
+    {
+        if (photonView.ViewID != viewId)
+            return;
+        if (defeatScreen.activeSelf)
+            return;
+        defeatScreen.SetActive(open);
+        config.ShowCursor();
+    }
+    /* Gotta send multiple people (array), or think of some clever solution
+    [PunRPC]
+    public void SetWhoWonHudText(int playersReady, int viewId)
+    {
+        if (photonView.ViewID != viewId)
+            return;
+        victoryScreenReadyUpHudText.text = "Players Ready: " + playersReady + "/" + CrewManager.Instance.playerPhotonViews.Count;
+        defeatScreenReadyUpHudText.text = "Players Ready: " + playersReady + "/" + CrewManager.Instance.playerPhotonViews.Count;
+    }*/
 }

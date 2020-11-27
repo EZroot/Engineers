@@ -10,31 +10,60 @@ public class Player_Health : MonoBehaviourPun
     public float hitpoints = 100;
 
     Player_RagdollController ragdollController;
+    Player_Hud hud;
+    Player_Config config;
     Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         ragdollController = GetComponent<Player_RagdollController>();
+        hud = GetComponent<Player_Hud>();
+        config = GetComponent<Player_Config>();
     }
 
-    //attackerPos - for direction of force
-    //force - for force
-    //hit position - for force on the point of the rigidbody
-    //need to make this in to raise event
-    public void KillImmediataly(float force, Vector3 hitPoint)
+    private void Update()
     {
+        hud.SetHealthHudText("HP " + hitpoints + "/100");
+
+        if (hitpoints <= 0 && !hud.victoryScreen.activeSelf) //if crewmanager.intsance.everyonedead?
+        {
+            hud.victoryScreen.SetActive(true);
+            config.ShowCursor();
+        }
+    }
+
+    //not sure if pun sends vectors, i think it doesnt
+    //Photonviews on rigidbody go through floor, idk why. colliders arent disabled on local player are they?
+    [PunRPC]
+    public void KillImmediately(int playerViewId, float force, Vector3 hitPoint)
+    {
+        if (playerViewId != photonView.ViewID)
+            return;
+
         ragdollController.RagdollOn();
-        rb.AddForceAtPosition((hitPoint - transform.position) * force, hitPoint, ForceMode.Impulse);
+        rb.AddForceAtPosition((transform.forward + transform.up) * force, hitPoint, ForceMode.Impulse);
     }
 
 
     [PunRPC]
-    void Damage(int playerViewId, int dmg)
+    public void Damage(int playerViewId, int dmg)
     {
         if (playerViewId != photonView.ViewID)
             return;
 
         hitpoints -= dmg;
+
+        if (hitpoints <= 0)
+            ragdollController.RagdollOn();
+    }
+
+    [PunRPC]
+    public void SetHealth(int playerViewId, int amount)
+    {
+        if (playerViewId != photonView.ViewID)
+            return;
+
+        hitpoints = amount;
     }
 }

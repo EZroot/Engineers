@@ -35,7 +35,7 @@ public class TaskManager : MonoBehaviour
             tasksPhotonViews[i] = taskObjects[i].GetComponent<PhotonView>();
         }
 
-        StartCoroutine(UpdateTasks(1f));
+       // StartCoroutine(UpdateTasks(1f));
     }
 
     IEnumerator UpdateTasks(float delay)
@@ -43,7 +43,7 @@ public class TaskManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         //if task is broken
         //or if task needs to be done by the player role thats selected
-        foreach (ITask t in tasks)
+        /*foreach (ITask t in tasks)
         {
             if (t.IsBroken())
             {
@@ -53,7 +53,7 @@ public class TaskManager : MonoBehaviour
             {
                 t.OutlineTaskOff();
             }
-        }
+        }*/
         StartCoroutine(UpdateTasks(delay));
     }
 
@@ -75,5 +75,15 @@ public class TaskManager : MonoBehaviour
     public PhotonView GetAirFilterPhotonView()
     {
         return tasksPhotonViews[1];
+    }
+
+    public ITask GetWaterTank()
+    {
+        return tasks[2];
+    }
+
+    public PhotonView GetWaterTankPhotonView()
+    {
+        return tasksPhotonViews[2];
     }
 }

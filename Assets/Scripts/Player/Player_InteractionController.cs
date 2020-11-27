@@ -63,15 +63,15 @@ public class Player_InteractionController : MonoBehaviourPun
                 //Cleaning air filter
                 if (hit.transform.tag == airFilterTag)
                 {
-                    config.audioSource.clip = config.cleaningClip;
+                    config.firstAudioSource.clip = config.cleaningClip;
 
                     //clean filter?
                     if (hit.transform.GetComponent<Task_AirFiltration>().cleanFilter)
                     {
 
                         //Audio stop
-                        if (config.audioSource.isPlaying)
-                            config.audioSource.Stop();
+                        if (config.firstAudioSource.isPlaying)
+                            config.firstAudioSource.Stop();
                         //Turn off UI
                         hud.SetProgressBarOff();
                         hud.SetProgressBarText("");
@@ -89,15 +89,15 @@ public class Player_InteractionController : MonoBehaviourPun
                     if (progressBarCount < progressBarCompleted)
                     {
                         //Audio play
-                        if (!config.audioSource.isPlaying)
-                            config.audioSource.Play();
+                        if (!config.firstAudioSource.isPlaying)
+                            config.firstAudioSource.Play();
                         return;
                     }
 
 
                     //Audio stop
-                    if (config.audioSource.isPlaying)
-                        config.audioSource.Stop();
+                    if (config.firstAudioSource.isPlaying)
+                        config.firstAudioSource.Stop();
                     //Turn off UI
                     hud.SetProgressBarText("");
                     hud.SetProgressBarOff();
@@ -110,14 +110,14 @@ public class Player_InteractionController : MonoBehaviourPun
                 //Clear water tank
                 if (hit.transform.tag == waterTankTag)
                 {
-                    config.audioSource.clip = config.valveSpinClip;
+                    config.firstAudioSource.clip = config.valveSpinClip;
                     Task_WaterTank tank = hit.transform.GetComponent<Task_WaterTank>();
                     //clean filter?
                     if (tank.clearWater)
                     {
                         //Audio stop
-                        if (config.audioSource.isPlaying)
-                            config.audioSource.Stop();
+                        if (config.firstAudioSource.isPlaying)
+                            config.firstAudioSource.Stop();
                         //Turn off UI
                         hud.SetProgressBarOff();
                         hud.SetProgressBarText("");
@@ -137,15 +137,15 @@ public class Player_InteractionController : MonoBehaviourPun
                     if (progressBarCount < progressBarCompleted)
                     {
                         //Audio play
-                        if (!config.audioSource.isPlaying)
-                            config.audioSource.Play();
+                        if (!config.firstAudioSource.isPlaying)
+                            config.firstAudioSource.Play();
                         return;
                     }
 
 
                     //Audio stop
-                    if (config.audioSource.isPlaying)
-                        config.audioSource.Stop();
+                    if (config.firstAudioSource.isPlaying)
+                        config.firstAudioSource.Stop();
                     //Turn off UI
                     hud.SetProgressBarText("");
                     hud.SetProgressBarOff();
@@ -161,8 +161,8 @@ public class Player_InteractionController : MonoBehaviourPun
         if(Input.GetMouseButtonUp(0))
         {
             //Audio stop
-            if (config.audioSource.isPlaying)
-                config.audioSource.Stop();
+            if (config.firstAudioSource.isPlaying)
+                config.firstAudioSource.Stop();
             //Turn off UI
             hud.SetProgressBarText("");
             hud.SetProgressBarOff();
