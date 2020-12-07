@@ -52,10 +52,14 @@ public class Player_Health : MonoBehaviourPun
         if (playerViewId != photonView.ViewID)
             return;
 
+        config.cameraShake.shakeDuration = 0.1f;
         hitpoints -= dmg;
 
         if (hitpoints <= 0)
+        {
+            config.bloodFX.SetActive(true);
             ragdollController.RagdollOn();
+        }
     }
 
     [PunRPC]

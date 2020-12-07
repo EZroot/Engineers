@@ -22,6 +22,7 @@ public class Player_Controller : MonoBehaviourPun
     private Player_RagdollController controllerRagdoll;
     private Player_Config config;
     private Player_Hud hud;
+    private Player_Health playerHealth;
 
     private LineRenderer lineRenderGrab;
     private GameObject hitObject = null;
@@ -40,6 +41,7 @@ public class Player_Controller : MonoBehaviourPun
         controllerRagdoll = GetComponent<Player_RagdollController>();
         config = GetComponent<Player_Config>();
         hud = GetComponent<Player_Hud>();
+        playerHealth = GetComponent<Player_Health>();
 
         lineRenderGrab = gameObject.GetComponent<LineRenderer>();
         lineRenderGrab.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero });
@@ -53,13 +55,17 @@ public class Player_Controller : MonoBehaviourPun
 
         //hud
         StartCoroutine("UpdateHUD");
+
     }
 
     private void Update()
     {
+        if (playerHealth.hitpoints <= 0)
+            stopMoving = true;
+
         FlashLightControls();
         RunningControls(config);
-        
+
         HighlightGrabbedObject(1.7f, grabLayer);
         MinimapControls();
 

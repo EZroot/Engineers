@@ -12,6 +12,7 @@ public class Player_Config : MonoBehaviourPun
     public GameObject humanFPSFists;
     public GameObject humanFPSKnife;
     public GameObject humanFPSPistol;
+    public GameObject bloodFX;
 
     public AudioClip cleaningClip;
     public AudioClip valveSpinClip;
@@ -47,6 +48,8 @@ public class Player_Config : MonoBehaviourPun
     //Stamina
     public int staminaLevel = 100;
     public int staminaLevelForRecover = 15;
+
+    public Player_CameraShake cameraShake;
 
     [HideInInspector]
     public float oxygenLevel = 100;

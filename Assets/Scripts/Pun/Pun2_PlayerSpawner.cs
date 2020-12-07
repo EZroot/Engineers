@@ -12,6 +12,7 @@ public class Pun2_PlayerSpawner : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
+        //PhotonNetwork.SendRate = 40;
 
         //In case we started this demo with the wrong scene being active, simply load the menu scene
         if (PhotonNetwork.CurrentRoom == null)

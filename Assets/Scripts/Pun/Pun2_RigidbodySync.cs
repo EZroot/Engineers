@@ -94,13 +94,53 @@ public class Pun2_RigidbodySync : MonoBehaviourPun, IPunObservable
 
             if (collisionObjectRoot.CompareTag("Player"))
             {
+                if(rbDrag != null)
+                {
+                    if (rbDrag.isGrabbed)
+                        return;
+                }
                 photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
             }
-            /*if(((1<<collisionObjectRoot.gameObject.layer) & LayerMask.NameToLayer("Interactive")) ==0)
+        }
+        else
+        {
+            //If we own this obj, and its grabbed, transfer ownership to others
+            //seems to only work partially? or after 1 collision?
+
+            //we cant get the root obj because a lot of objs are organized in heirarchy
+
+            //Other Solutions: make a local isGrabbed so we can tell if our client is grabbing it and then replace rb.isgrabbed with that, or combine them
+
+            //Future Problem: cant move objs being collided by the collided obj of the obj grab collision lmao
+            //Grab latern -> move crate -> which moves barrel, barrel may be frozen in place/jitter cause its not transfered
+            //Future Solutions: get list of oncollisionstay colliders, if grabbed transfer em all unless being collided with by player?
+
+            if (((1 << contact.gameObject.layer) & LayerMask.NameToLayer("Interactive")) == 0)
             {
-                photonView.TransferOwnership(PhotonNetwork.LocalPlayer);
-                Debug.Log("Colliding with interactive");
-            } causes weird glitches */
+                Debug.Log("Hitting obj "+contact.gameObject.name + " with "+gameObject.name);
+                if (rbDrag != null)
+                {
+                    if (rbDrag.isGrabbed)
+                    {
+                        PhotonView otherpv = contact.gameObject.GetComponent<PhotonView>();
+                        if (otherpv == null)
+                        {
+                            Debug.Log("OTHER PHOTONVIEW DOESNT EXIST!!!!");
+                            return;
+                        }
+                        otherpv.TransferOwnership(PhotonNetwork.LocalPlayer);
+                        Debug.Log(otherpv.ViewID + " Obj transfered to " + photonView.ViewID);
+                    }
+                    else
+                    {
+                        Debug.Log("Obj "+ gameObject.name+" not grabbed.");
+                    }
+                }
+                else
+                {
+                    Debug.Log("rbDrag not found!");
+                }
+            }
         }
     }
 }

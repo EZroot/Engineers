@@ -18,13 +18,13 @@ public class Player_FightingController : MonoBehaviour
     public string playerTag;
     public string[] rigidbodyTags;
 
-    public float punchTimer = .7f;
-    public float knifeTimer = .8f;
-    public float axeTimer = 1.6f;
-    public float pistolShotTimer = 1f;
+    private float punchTimer = .5f;
+    private float knifeTimer = .6f;
+    private float axeTimer = 1.6f;
+    private float pistolShotTimer = 0.2f;
 
-    public float punchForce = 15f;
-    public float imposterForceMultiplier = 3f;
+    private float punchForce = 15f;
+    private float imposterForceMultiplier = 3f;
 
     public LayerMask playerCapsuleLayermask;
 
@@ -104,9 +104,10 @@ public class Player_FightingController : MonoBehaviour
             config.firstAudioSource.Play();
             playedClip = true;
         }
+        config.cameraShake.shakeDuration = 0.05f;
         //controller.StopMoving = true;
         punchCooldownOn = true;
-        yield return new WaitForSeconds(punchTimer);
+        yield return new WaitForSeconds(pistolShotTimer);
             config.firstAudioSource.Stop();
         punchCooldownOn = false;
         //controller.StopMoving = false;

@@ -19,6 +19,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
     //Values that will be synced over network
     public Transform modelTransform;
     public GameObject flashLight;
+    public Transform headLookAtTransform; //not the head, but the head look at transform in limbcontroller
 
     //Config to check imposter status
     private Player_Config config;
@@ -26,6 +27,9 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
     //syncing vars
     Vector3 latestPos;
     Quaternion latestRot;
+
+    Vector3 latestHeadPos;
+
     bool lightOn = false;
     Quaternion lightRot;
 
@@ -76,6 +80,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //We own this player: send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(modelTransform.transform.rotation);
+            stream.SendNext(headLookAtTransform.position); //head look at
             stream.SendNext(flashLight.activeSelf);
             stream.SendNext(flashLight.transform.rotation);
         }
@@ -84,6 +89,7 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //Network player, receive data
             latestPos = (Vector3)stream.ReceiveNext();
             latestRot = (Quaternion)stream.ReceiveNext();
+            latestHeadPos = (Vector3)stream.ReceiveNext();
             lightOn = (bool)stream.ReceiveNext();
             lightRot = (Quaternion)stream.ReceiveNext();
         }
@@ -98,6 +104,8 @@ public class Pun2_PlayerSync : MonoBehaviourPun, IPunObservable
             //Update remote player (smooth this, this looks good, at the cost of some accuracy)
             transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 5);
             modelTransform.transform.rotation = Quaternion.Lerp(modelTransform.transform.rotation, latestRot, Time.deltaTime * 5);
+            headLookAtTransform.position = Vector3.Lerp(headLookAtTransform.position, latestHeadPos, Time.deltaTime * 5);
+
             flashLight.SetActive(lightOn);
             flashLight.transform.rotation = Quaternion.Lerp(flashLight.transform.rotation, lightRot, Time.deltaTime * 5);
         }
