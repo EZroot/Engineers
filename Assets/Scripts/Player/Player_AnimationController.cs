@@ -156,7 +156,7 @@ public class Player_AnimationController : MonoBehaviour
         else
         {
             config.humanHandsAnimator.SetTrigger("Punch");
-            config.humanAnimator.SetBool("IsPunching", true);
+            config.humanAnimator.SetBool("IsPunching", true); //This needs to be changed on all non-fists objs to suit their wep animation
         }
 
     }
@@ -166,7 +166,9 @@ public class Player_AnimationController : MonoBehaviour
         if (config.isImposter)
             config.monsterHandsAnimator.ResetTrigger("Punch");
         else
+        {
             config.humanHandsAnimator.ResetTrigger("Punch");
+        }
     }
 
     public void TriggerStab()
@@ -174,8 +176,10 @@ public class Player_AnimationController : MonoBehaviour
         if (config.isImposter)
             config.monsterHandsAnimator.SetTrigger("Punch");
         else
+        {
             config.humanStabAnimator.SetTrigger("Stab");
-
+            config.humanAnimator.SetBool("IsPunching", true); //This needs to be changed on all non-fists objs to suit their wep animation
+        }
     }
 
     public void ResetTriggerStab()
@@ -191,8 +195,10 @@ public class Player_AnimationController : MonoBehaviour
         if (config.isImposter)
             config.monsterHandsAnimator.SetTrigger("Punch");
         else
+        {
             config.humanPistolAnimator.SetTrigger("Shoot");
-
+            config.humanAnimator.SetBool("IsPunching", true); //This needs to be changed on all non-fists objs to suit their wep animation
+        }
     }
 
     public void ResetTriggerShoot()

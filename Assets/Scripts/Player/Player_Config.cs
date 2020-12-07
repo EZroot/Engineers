@@ -12,6 +12,10 @@ public class Player_Config : MonoBehaviourPun
     public GameObject humanFPSFists;
     public GameObject humanFPSKnife;
     public GameObject humanFPSPistol;
+
+    public GameObject handHeldKnife;
+    public GameObject handHeldPistol;
+
     public GameObject bloodFX;
 
     public AudioClip cleaningClip;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_FightingController : MonoBehaviour
+public class Player_FightingController : MonoBehaviourPun
 {
     public enum Weapon
     {
@@ -74,6 +74,8 @@ public class Player_FightingController : MonoBehaviour
 
     IEnumerator StabCooldownTimer(Player_AnimationController controllerAnimation)
     {
+        config.humanAnimator.SetLayerWeight(1, 1f);
+
         isFighting = true;
         controllerAnimation.TriggerStab();
         config.firstAudioSource.clip = config.knifeClip;
@@ -96,6 +98,8 @@ public class Player_FightingController : MonoBehaviour
 
     IEnumerator ShootCooldownTimer(Player_AnimationController controllerAnimation)
     {
+        config.humanAnimator.SetLayerWeight(1, 1f);
+
         isFighting = true;
         controllerAnimation.TriggerShoot();
         config.firstAudioSource.clip = config.shootClip;
@@ -158,25 +162,27 @@ public class Player_FightingController : MonoBehaviour
 
     public void SelectWeaponModel(Weapon weaponType)
     {
-        //Weapon selection
+        //Weapon selection + Show up in third person model
         switch (weaponType)
         {
             case Weapon.Fists:
                 config.humanFPSFists.SetActive(true);
                 config.humanFPSKnife.SetActive(false);
                 config.humanFPSPistol.SetActive(false);
-
+                photonView.RPC("ChangeWeapon", RpcTarget.AllBufferedViaServer, 0, photonView.ViewID);
                 break;
             case Weapon.Knife:
                 config.humanFPSFists.SetActive(false);
                 config.humanFPSKnife.SetActive(true);
                 config.humanFPSPistol.SetActive(false);
+                photonView.RPC("ChangeWeapon", RpcTarget.AllBufferedViaServer, 1, photonView.ViewID);
 
                 break;
             case Weapon.Pistol:
                 config.humanFPSFists.SetActive(false);
                 config.humanFPSKnife.SetActive(false);
                 config.humanFPSPistol.SetActive(true);
+                photonView.RPC("ChangeWeapon", RpcTarget.AllBufferedViaServer, 3, photonView.ViewID);
                 break;
         }
         selectedWeapon = weaponType;
@@ -277,5 +283,32 @@ public class Player_FightingController : MonoBehaviour
                 break;
         }
         return (int)dmg;
+    }
+
+    [PunRPC]
+    void ChangeWeapon(int wep, int viewID)
+    {
+        if (viewID != photonView.ViewID)
+            return;
+
+        switch(wep)
+        {
+            case 0: // fists
+                config.handHeldKnife.SetActive(false);
+                config.handHeldPistol.SetActive(false);
+                break;
+            case 1: // knife
+                config.handHeldKnife.SetActive(true);
+                config.handHeldPistol.SetActive(false);
+                break;
+            case 2: // axe
+                config.handHeldKnife.SetActive(false);
+                config.handHeldPistol.SetActive(false);
+                break;
+            case 3: // pistol
+                config.handHeldKnife.SetActive(false);
+                config.handHeldPistol.SetActive(true);
+                break;
+        }
     }
 }
