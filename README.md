@@ -1,4 +1,4 @@
 # Engineers
 Mafia style game
-![Alt Text](https://codeforfood.io/static/media/Animation.5fb63424.gif)
+![Alt Text](https://codeforfood.io/static/media/newanimations.78b481ba.gif)
 
